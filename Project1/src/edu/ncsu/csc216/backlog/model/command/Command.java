@@ -4,15 +4,15 @@
 package edu.ncsu.csc216.backlog.model.command;
 
 /**
- * @author admin
+ * @author Daiki Kudo
  *
  */
 public class Command {
 	
+	private CommandValue c;
 	private String note;
+	private String noteAuthor;	
 	
-	private String noteAuthor;
-
 	/**
 	 * 
 	 * @param c
@@ -25,6 +25,35 @@ public class Command {
 			throw new IllegalArgumentException();
 		}
 	}
+	
+	
+	/**
+	 * @return the note
+	 */
+	public CommandValue getCommand(){
+		return this.c;
+	}
+
+
+	/**
+	 * @return the noteAuthor
+	 */
+	public String getNoteText() {
+		return this.noteAuthor;
+	}
+
+
+
+	/**
+	 * @return the noteAuthor
+	 */
+	public String getNoteAuthor() {
+		return this.noteAuthor;
+	}
+
+
+
+	
 		
 	
 	/** Lists possible commands */
