@@ -72,7 +72,7 @@ public class TaskItemList {
 		return selectedTasks;
 	}
 	
-	public TaskItem getTaskItemsById(int id){
+	public TaskItem getTaskItemById(int id){
 		
 		for (TaskItem eachTask : this.tasks) {
 			if (eachTask.getTaskItemId() == id) {
