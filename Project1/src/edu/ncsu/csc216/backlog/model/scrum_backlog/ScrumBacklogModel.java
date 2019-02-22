@@ -123,7 +123,7 @@ public class ScrumBacklogModel {
 	}
 	
 	public TaskItem getTaskItemById(int id) {
-		return this.taskItemList.getTaskItemsById(id);
+		return this.taskItemList.getTaskItemById(id);
 		
 	}
 	
