@@ -9,7 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * @author admin
+ * Tests TaskItemList class
+ * @author Daiki Kudo
  *
  */
 public class TaskItemListTest {

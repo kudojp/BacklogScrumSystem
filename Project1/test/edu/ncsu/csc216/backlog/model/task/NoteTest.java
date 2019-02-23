@@ -9,7 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * @author admin
+ * Tests Note class
+ * @author Daiki Kudo
  *
  */
 public class NoteTest {

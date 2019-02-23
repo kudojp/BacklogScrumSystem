@@ -7,8 +7,8 @@ import edu.ncsu.csc216.backlog.model.command.Command;
 import edu.ncsu.csc216.task.xml.Task;
 
 /**
+ * TaskItem class representing each Task
  * @author Daiki Kudo
- *
  */
 public class TaskItem{
 	
@@ -32,30 +32,50 @@ public class TaskItem{
 	/** whether this task is verified */
 	private Boolean isVerified;
 	/** counter which maintains the taskId number of the next TaskItem */
-	
-	private final TaskItemState backlogState = new BacklogState(); 
-	private final TaskItemState ownedState = new OwnedState(); 
-	private final TaskItemState processingState = new ProcessingState(); 
-	private final TaskItemState verifyingState = new VerifyingState(); 
-	private final TaskItemState doneState = new DoneState(); 
-	private final TaskItemState rejectedState = new RejectedState(); 
-	
-	public static final String BACKLOG_NAME = "Backlog";
-	public static final String OWNED_NAME = "Owned";
-	public static final String PROCESSING_NAME = "Processing";
-	public static final String VERIFYING_NAME = "Verifying";
-	public static final String DONE_NAME = "Done";
-	public static final String REJECTED_NAME = "Rejected";
-	
-	public static final String T_FEATURE = "F";
-	public static final String T_BUG = "B";
-	public static final String T_TECHNICAL = "TW";
-	public static final String T_KNOWLEDGE_ACQUISITION = "KA";
-	
 	private static int counter = 1;
 	
+	/** static TaskItemState which represents "Backlog" */
+	private final TaskItemState backlogState = new BacklogState(); 
+	/** static TaskItemState which represents "Owned" */
+	private final TaskItemState ownedState = new OwnedState(); 
+	/** static TaskItemState which represents "Processing" */
+	private final TaskItemState processingState = new ProcessingState();
+	/** static TaskItemState which represents "Verifying" */
+	private final TaskItemState verifyingState = new VerifyingState();
+	/** static TaskItemState which represents "Done" */
+	private final TaskItemState doneState = new DoneState(); 
+	/** static TaskItemState which represents "Rejected" */
+	private final TaskItemState rejectedState = new RejectedState(); 
+	
+	/** static String which represents "Backlog" state */
+	public static final String BACKLOG_NAME = "Backlog";
+	/** static String which represents "Owned" state */
+	public static final String OWNED_NAME = "Owned";
+	/** static String which represents "Processing" state */
+	public static final String PROCESSING_NAME = "Processing";
+	/** static String which represents "Verifying" state */
+	public static final String VERIFYING_NAME = "Verifying";
+	/** static String which represents "Done" state */
+	public static final String DONE_NAME = "Done";
+	/** static String which represents "Rejected" state */
+	public static final String REJECTED_NAME = "Rejected";
+	
+	/** static String which represents "Feature" Type */
+	public static final String T_FEATURE = "F";
+	/** static String which represents "Bug" Type */
+	public static final String T_BUG = "B";
+	/** static String which represents "Technical" Type */
+	public static final String T_TECHNICAL = "TW";
+	/** static String which represents "Knowledge acquisition" Type */
+	public static final String T_KNOWLEDGE_ACQUISITION = "KA";
+	
+	
 	/**
-	 * 
+	 * Constructs TaskItem object
+	 * @param title : title of the object
+	 * @param type : type of the object
+	 * @param creator : creator of the object
+	 * @param notes : notes of the object
 	 */
 	public TaskItem(String title, Type type, String creator, String notes){
 		if (title == null || title.equals("")) {
@@ -79,15 +99,21 @@ public class TaskItem{
 		
 		this.state  = new BacklogState();
 		
-		
+		// increment counter for id of the next TaskItem
 		incrementCounter();
 	}
 	
+	/**
+	 * Creates TaskItem object from a given Task object
+	 * @param task : Task object
+	 */
 	public TaskItem(Task task) {
 		
 	}
 	
-	
+	/**
+	 * Increments static field "counter" which represents the id of TaskItem object which would be constructed next.
+	 */
 	public static void incrementCounter() {
 		counter += 1;
 	}
@@ -108,11 +134,18 @@ public class TaskItem{
 		return this.state.getStateName();	
 	}
 	
-	
-	private void setState(String stateName) {
+	/**
+	 * Sets state of this TaskItem 
+	 * @param state : String state name which this TaskItem would be set
+	 */
+	private void setState(String state) {
 		//this.state = 
 	}
 	
+	/**
+	 * Sets type of this TaskItem 
+	 * @param type : String type name which this TaskItem would be set
+	 */
 	private void setType(String type) {
 		//
 	}
@@ -122,6 +155,7 @@ public class TaskItem{
 	
 	
 	/**
+	 * Returns type of this TaskItem
 	 * @return the type
 	 */
 	public Type getType() {
@@ -129,20 +163,23 @@ public class TaskItem{
 	}
 	
 	/**
-	 * @return the type
+	 * Returns short String which represents type of this TaskItem
+	 * @return short String which represents type
 	 */
 	public String getTypeString() {
 		return "";
 	}
 	
 	/**
-	 * @return the type
+	 * Returns full String which represents type of this TaskItem
+	 * @return full String which represents type
 	 */
 	public String getTypeFullString() {
 		return "";
 	}
 
 	/**
+	 * Returns title of this TaskItem
 	 * @return the title
 	 */
 	public String getTitle() {
@@ -150,6 +187,7 @@ public class TaskItem{
 	}
 
 	/**
+	 * Returns creator of this TaskItem
 	 * @return the creator
 	 */
 	public String getCreator() {
@@ -157,28 +195,41 @@ public class TaskItem{
 	}
 
 	/**
-	 * @return the notes
+	 * Returns ArrayList of notes of this TaskItem
+	 * @return ArrayList of notes
 	 */
 	public ArrayList<Note> getNotes() {
 		return null;
 	}
 
 	/**
+	 * Returns the owner of this TaskItem
 	 * @return the owner
 	 */
 	public String getOwner() {
 		return owner;
 	}
 
+	/**
+	 * Updates this TaskItem with a given command
+	 * @param c : command 
+	 */
 	public void update(Command c) {
 		
 	}
 	
+	/**
+	 * Returns Task object which corresponds to this TaskItem
+	 * @return Task object
+	 */
 	public Task getXMLTask(){
 		return null;
 	}
 	
-
+	/**
+	 * Sets static field "counter" at a given value
+	 * @param i : value which counter would be set at (has be more than 0)
+	 */
 	public static void setCounter(int i) {
 		if (i <= 0) {
 			throw new IllegalArgumentException();
@@ -186,19 +237,18 @@ public class TaskItem{
 		counter = i;
 	}
 	
+	/**
+	 * Returns String Array of Notes of this TaskItem
+	 * @return Array of Notes 
+	 */
 	public String[][] getNotesArray(){
 		return null;
 	}
 	
 	
-	
-	
-	
-	
 	/**
-	 * 
+	 * BacklogState class which is an inner class of TaskItemState
 	 * @author Daiki Kudo
-	 *
 	 */
 	private class BacklogState implements TaskItemState{
 
@@ -216,7 +266,7 @@ public class TaskItem{
 	}
 	
 	/**
-	 * 
+	 * OwnedState class which is an inner class of TaskItemState
 	 * @author Daiki Kudo
 	 *
 	 */
@@ -237,7 +287,7 @@ public class TaskItem{
 	
 	
 	/**
-	 * 
+	 * ProcessingState class which is an inner class of TaskItemState
 	 * @author Daiki Kudo
 	 *
 	 */
@@ -258,7 +308,7 @@ public class TaskItem{
 	
 	
 	/**
-	 * 
+	 * VerifyingState class which is an inner class of TaskItemState
 	 * @author Daiki Kudo
 	 *
 	 */
@@ -280,7 +330,7 @@ public class TaskItem{
 	
 	
 	/**
-	 * 
+	 * DoneState class which is an inner class of TaskItemState
 	 * @author Daiki Kudo
 	 *
 	 */
@@ -302,7 +352,7 @@ public class TaskItem{
 	
 	
 	/**
-	 * 
+	 * RejectedState class which is an inner class of TaskItemState
 	 * @author Daiki Kudo
 	 *
 	 */
