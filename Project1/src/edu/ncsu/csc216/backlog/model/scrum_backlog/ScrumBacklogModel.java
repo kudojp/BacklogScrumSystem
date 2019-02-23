@@ -52,7 +52,7 @@ public class ScrumBacklogModel {
 		TaskWriter writer = new TaskWriter(fileName);
 		try {
 			writer = new TaskWriter(fileName);
-			for (int i = 0 ; i <this.taskItemList.getTaskItems().size() ; i++) {
+			for (int i = 0 ; i < this.taskItemList.getTaskItems().size() ; i++) {
 				writer.addItem(this.taskItemList.getTaskItems().get(i).getXMLTask());
 			}
 			writer.marshal();

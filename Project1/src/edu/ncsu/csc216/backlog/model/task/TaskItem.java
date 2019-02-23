@@ -1,6 +1,5 @@
 package edu.ncsu.csc216.backlog.model.task;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import edu.ncsu.csc216.backlog.model.command.Command;
@@ -10,7 +9,7 @@ import edu.ncsu.csc216.task.xml.Task;
  * TaskItem class representing each Task
  * @author Daiki Kudo
  */
-public class TaskItem{
+public class TaskItem {
 	
 	/** Lists possible task types */
 	public enum Type { FEATURE, BUG, TECHNICAL_WORK, KNOWLEDGE_ACQUISITION }
@@ -250,7 +249,7 @@ public class TaskItem{
 	 * BacklogState class which is an inner class of TaskItemState
 	 * @author Daiki Kudo
 	 */
-	private class BacklogState implements TaskItemState{
+	private class BacklogState implements TaskItemState {
 
 		@Override
 		public void updateState(Command c) throws UnsupportedOperationException{
@@ -270,7 +269,7 @@ public class TaskItem{
 	 * @author Daiki Kudo
 	 *
 	 */
-	private class OwnedState implements TaskItemState{
+	private class OwnedState implements TaskItemState {
 
 		@Override
 		public void updateState(Command c) {
@@ -291,7 +290,7 @@ public class TaskItem{
 	 * @author Daiki Kudo
 	 *
 	 */
-	private class ProcessingState implements TaskItemState{
+	private class ProcessingState implements TaskItemState {
 
 		@Override
 		public void updateState(Command c) {
@@ -312,7 +311,7 @@ public class TaskItem{
 	 * @author Daiki Kudo
 	 *
 	 */
-	private class VerifyingState implements TaskItemState{
+	private class VerifyingState implements TaskItemState {
 
 		@Override
 		public void updateState(Command c) {
@@ -334,7 +333,7 @@ public class TaskItem{
 	 * @author Daiki Kudo
 	 *
 	 */
-	private class DoneState implements TaskItemState{
+	private class DoneState implements TaskItemState {
 
 		@Override
 		public void updateState(Command c) {
@@ -356,7 +355,7 @@ public class TaskItem{
 	 * @author Daiki Kudo
 	 *
 	 */
-	private class RejectedState implements TaskItemState{
+	private class RejectedState implements TaskItemState {
 
 		@Override
 		public void updateState(Command c) {
@@ -381,7 +380,7 @@ public class TaskItem{
 	 * 
 	 * @author Dr. Sarah Heckman (sarah_heckman@ncsu.edu) 
 	 */
-	private interface TaskItemState{
+	private interface TaskItemState {
 		
 		/**
 		 * Update the {@link TaskItem} based on the given {@link Command}.
