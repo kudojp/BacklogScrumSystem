@@ -17,7 +17,7 @@ public class Note {
 	/**
 	 * Constructs Note object which contains note and the author's name
 	 * @param noteAuthor : author's name of a task
-	 * @param noteAuthor : note about a task
+	 * @param noteText : note about a task
 	 * @throws IllegalArgumentException if a note or a noteAuthor is invalid
 	 */
 	public Note(String noteAuthor, String noteText) throws IllegalArgumentException{
@@ -35,6 +35,7 @@ public class Note {
 
 
 	/**
+	 * Returns note author.
 	 * @return the noteAuthor
 	 */
 	public String getNoteAuthor() {
@@ -42,13 +43,15 @@ public class Note {
 	}
 	
 	/**
+	 * Sets note Author
 	 * @param noteAuthor the noteAuthor to set
 	 */
 	private void setNoteAuthor(String noteAuthor) {
 		this.noteAuthor = noteAuthor;
 	}
-	
+
 	/**
+	 * Returns this note text
 	 * @return the noteText
 	 */
 	public String getNoteText() {
@@ -56,6 +59,7 @@ public class Note {
 	}
 
 	/**
+	 * Sets this note text
 	 * @param noteText the noteText to set
 	 */
 	private void setNoteText(String noteText) {

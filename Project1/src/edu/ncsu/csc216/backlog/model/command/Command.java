@@ -1,7 +1,7 @@
 package edu.ncsu.csc216.backlog.model.command;
 
 /**
- * Command Class which is responsibe for the command of user input
+ * Command Class which is responsible for the command of user input
  * @author Daiki Kudo
  */
 public class Command {
@@ -27,7 +27,12 @@ public class Command {
 		if (c == null || noteAuthor == null || noteText == null || noteAuthor.equals("") || noteText.equals("") ){
 			throw new IllegalArgumentException();
 		}
+		
+		this.c = c;
+		this.noteAuthor = noteAuthor;
+		this.note = noteText;
 	}
+	
 	
 	
 	/**
