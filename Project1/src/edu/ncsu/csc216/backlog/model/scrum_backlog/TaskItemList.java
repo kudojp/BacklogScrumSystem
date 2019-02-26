@@ -1,5 +1,6 @@
 package edu.ncsu.csc216.backlog.model.scrum_backlog;
 
+import java.util.ArrayList;
 import java.util.List;
 import edu.ncsu.csc216.backlog.model.command.Command;
 import edu.ncsu.csc216.backlog.model.task.TaskItem;
@@ -16,21 +17,22 @@ public class TaskItemList {
 	static final int INITIAL_COUNTER_VALUE = 1;
 
 	/**　List of TaskItems */
-	private List<TaskItem> tasks;
+	private ArrayList<TaskItem> tasks;
 	
 	/**
 	 * Constructs ItemTaskList object.
 	 * Sets the counter to 1 for the first ItemTask to be stored.
 	 */
 	public TaskItemList() {
+		this.tasks = new ArrayList<TaskItem>();
 		TaskItem.setCounter(INITIAL_COUNTER_VALUE);
 	}
 	
 	/**
-	 * to be described more later!!!!!!
+	 * Sets List to empty list.
 	 */
 	private void emptyList() {
-		
+		this.tasks = new ArrayList<TaskItem>();
 	}
 	
 	/**
@@ -39,12 +41,13 @@ public class TaskItemList {
 	 * @param type : type of the new TaskItem
 	 * @param creator : creator of the new TaskItem
 	 * @param notes : notes of the new TaskItem
-	 * @return integer??????
+	 * @return newId : ID of newly added TaskItem
 	 */
-	public int addTaskItem(String title, Type type, String creator, String notes){
+	public int addTaskItem(String title, Type type, String creator, String notes){ 
 		TaskItem newTaskItem = new TaskItem(title, type, creator, notes);
+		int newId = newTaskItem.getTaskItemId();
 		tasks.add(newTaskItem);  
-		return 0;
+		return newId;
 	}
 	
 	/**
@@ -77,14 +80,16 @@ public class TaskItemList {
 	 */
 	public List<TaskItem> getTaskItemsByOwner(String owner){
 		
-		List<TaskItem> selectedTasks = null;
-		
-		for (TaskItem eachTask : this.tasks) {
-			if (eachTask.getOwner().equals(owner)) {
-				selectedTasks.add(eachTask);
+		List<TaskItem> filteredTasks = new ArrayList<TaskItem>();
+
+		for (TaskItem eachTaskItem : this.tasks) {
+			if (eachTaskItem.getOwner() != null) {
+				if (eachTaskItem.getOwner().equals(owner)) {
+					filteredTasks.add(eachTaskItem);
+				}
 			}
 		}
-		return selectedTasks;
+		return filteredTasks;
 	}
 	
 	/**
@@ -95,14 +100,17 @@ public class TaskItemList {
 	 */
 	public List<TaskItem> getTaskItemsByCreator(String creator){
 		
-		List<TaskItem> selectedTasks = null;
 		
-		for (TaskItem eachTask : this.tasks) {
-			if (eachTask.getCreator().equals(creator)) {
-				selectedTasks.add(eachTask);
+		List<TaskItem> filteredTasks = new ArrayList<TaskItem>();
+
+		for (TaskItem eachTaskItem : this.tasks) {
+			if (eachTaskItem.getCreator() != null) {
+				if (eachTaskItem.getCreator().equals(creator)) {
+					filteredTasks.add(eachTaskItem);
+				}
 			}
 		}
-		return selectedTasks;
+		return filteredTasks;
 	}
 	
 	/**
@@ -113,12 +121,13 @@ public class TaskItemList {
 	 */
 	public TaskItem getTaskItemById(int id){
 		
-		for (TaskItem eachTask : this.tasks) {
-			if (eachTask.getTaskItemId() == id) {
-				return eachTask;
+		for (TaskItem eachTaskItem : this.tasks) {
+			if (eachTaskItem.getTaskItemId() == id) {
+				return eachTaskItem;
 			}
 		}
 		return null;
+	
 	}
 
 	/**
@@ -136,7 +145,7 @@ public class TaskItemList {
 	 */
 	public void deleteTaskItemById(int id) {
 		
-		for (int i = this.tasks.size() ;  0 <= i ; i--) {
+		for (int i = this.tasks.size()-1 ;  0 <= i ; i--) {
 			if (this.tasks.get(i).getTaskItemId() == id) {
 				this.tasks.remove(i);	
 			}

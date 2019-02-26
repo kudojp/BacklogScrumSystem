@@ -1,8 +1,10 @@
 package edu.ncsu.csc216.backlog.model.task;
 
-import java.util.ArrayList;
+import java.util.*;
 
 import edu.ncsu.csc216.backlog.model.command.Command;
+import edu.ncsu.csc216.task.xml.NoteItem;
+import edu.ncsu.csc216.task.xml.NoteList;
 import edu.ncsu.csc216.task.xml.Task;
 
 /**
@@ -68,6 +70,15 @@ public class TaskItem {
 	/** static String which represents "Knowledge acquisition" Type */
 	public static final String T_KNOWLEDGE_ACQUISITION = "KA";
 	
+	/** static full String which represents "Feature" Type */
+	public static final String FULL_FEATURE = "Feature";
+	/** static full String which represents "Bug" Type */
+	public static final String FULL_BUG = "Bug";
+	/** static full String which represents "Technical" Type */
+	public static final String FULL_TECHNICAL = "Technical";
+	/** static full String which represents "Knowledge acquisition" Type */
+	public static final String FULL_KNOWLEDGE_ACQUISITION = "Knowledge acquisition";
+	
 	
 	/**
 	 * Constructs TaskItem object
@@ -90,13 +101,16 @@ public class TaskItem {
 			throw new IllegalArgumentException();
 		}
 		
-		this.title = title;
+		this.setState(BACKLOG_NAME);
+		
+		// the first state should be "Backlog"
+		this.state  = new BacklogState(); 
 		this.type = type;
+		this.title = title;
 		this.creator = creator;
+		this.notes = new ArrayList<Note>();
 		this.notes.add(new Note(creator, notes));
 		this.taskId = counter;
-		
-		this.state  = new BacklogState();
 		
 		// increment counter for id of the next TaskItem
 		incrementCounter();
@@ -107,6 +121,20 @@ public class TaskItem {
 	 * @param task : Task object
 	 */
 	public TaskItem(Task task) {
+		this.taskId = task.getId();
+		this.setState(task.getState());
+		this.setType(task.getType());
+		this.title = task.getTitle();
+		this.creator = task.getCreator();
+		this.owner = task.getOwner();
+		this.notes = new ArrayList<Note>();
+		List<NoteItem> notelist = task.getNoteList().getNotes();
+		for (NoteItem ni : notelist) {
+			Note n = new Note(ni.getNoteAuthor(), ni.getNoteText());
+			this.notes.add(n);
+		}
+		this.taskId = task.getId();
+		this.isVerified = task.isVerified();
 		
 	}
 	
@@ -138,7 +166,23 @@ public class TaskItem {
 	 * @param state : String state name which this TaskItem would be set
 	 */
 	private void setState(String state) {
-		//this.state = 
+		if (state == null) {
+			throw new IllegalArgumentException();
+		} else if (state.equals(BACKLOG_NAME)){
+			this.state = backlogState;
+		} else if (state.equals(OWNED_NAME)) {
+			this.state = ownedState;
+		} else if (state.equals(PROCESSING_NAME)){
+			this.state = processingState;
+		} else if (state.equals(VERIFYING_NAME)) {
+			this.state = verifyingState;
+		} else if (state.equals(DONE_NAME)){
+			this.state = doneState;
+		} else if (state.equals(REJECTED_NAME)) {
+			this.state = rejectedState;
+		} else {
+			throw new IllegalArgumentException();
+		} 
 	}
 	
 	/**
@@ -146,7 +190,19 @@ public class TaskItem {
 	 * @param type : String type name which this TaskItem would be set
 	 */
 	private void setType(String type) {
-		//
+		if (type == null) {
+			throw new IllegalArgumentException();
+		} else if (type.equals(T_FEATURE)){
+			this.type = Type.FEATURE;
+		} else if (type.equals(T_BUG)) {
+			this.type = Type.BUG;
+		} else if (type.equals(T_TECHNICAL)){
+			this.type = Type.TECHNICAL_WORK;
+		} else if (type.equals(T_KNOWLEDGE_ACQUISITION)) {
+			this.type = Type.KNOWLEDGE_ACQUISITION;
+		} else {
+			throw new IllegalArgumentException();
+		}
 	}
 	
 	
@@ -158,7 +214,7 @@ public class TaskItem {
 	 * @return the type
 	 */
 	public Type getType() {
-		return type;
+		return this.type;
 	}
 	
 	/**
@@ -166,7 +222,17 @@ public class TaskItem {
 	 * @return short String which represents type
 	 */
 	public String getTypeString() {
-		return "";
+		if (this.type.equals(Type.FEATURE)){
+			return T_FEATURE;
+		} else if (this.type.equals(Type.BUG)) {
+			return T_BUG;
+		} else if (this.type.equals(Type.TECHNICAL_WORK)) {
+			return T_TECHNICAL;
+		} else if (this.type.equals(Type.KNOWLEDGE_ACQUISITION)) {
+			return T_KNOWLEDGE_ACQUISITION;
+		} else {
+			throw new IllegalArgumentException("Somthing is wrong with type");
+		}
 	}
 	
 	/**
@@ -174,7 +240,17 @@ public class TaskItem {
 	 * @return full String which represents type
 	 */
 	public String getTypeFullString() {
-		return "";
+		if (this.type.equals(Type.FEATURE)){
+			return FULL_FEATURE;
+		} else if (this.type.equals(Type.BUG)) {
+			return FULL_BUG;
+		} else if (this.type.equals(Type.TECHNICAL_WORK)) {
+			return FULL_TECHNICAL;
+		} else if (this.type.equals(Type.KNOWLEDGE_ACQUISITION)) {
+			return FULL_KNOWLEDGE_ACQUISITION;
+		} else {
+			throw new IllegalArgumentException("Somthing is wrong with type");
+		}
 	}
 
 	/**
@@ -182,7 +258,7 @@ public class TaskItem {
 	 * @return the title
 	 */
 	public String getTitle() {
-		return title;
+		return this.title;
 	}
 
 	/**
@@ -198,7 +274,7 @@ public class TaskItem {
 	 * @return ArrayList of notes
 	 */
 	public ArrayList<Note> getNotes() {
-		return null;
+		return this.notes;
 	}
 
 	/**
@@ -222,7 +298,25 @@ public class TaskItem {
 	 * @return Task object
 	 */
 	public Task getXMLTask(){
-		return null;
+		Task t = new Task();
+		t.setTitle(this.getTitle());
+		t.setId(this.getTaskItemId());
+		t.setType(this.getTypeString());
+		t.setState(this.getStateName());
+		t.setCreator(this.getCreator());
+		t.setVerified(this.isVerified);
+		t.setOwner(this.getOwner());
+		
+		NoteList nl = new NoteList();
+		for (Note eachNI : this.getNotes()) {
+			NoteItem ni = new NoteItem();
+			ni.setNoteAuthor(eachNI.getNoteAuthor());
+			ni.setNoteText(eachNI.getNoteText());
+			nl.getNotes().add(ni);
+		}
+		t.setNoteList(nl);
+
+		return t;
 	}
 	
 	/**
@@ -241,7 +335,13 @@ public class TaskItem {
 	 * @return Array of Notes 
 	 */
 	public String[][] getNotesArray(){
-		return null;
+		int nNotes = this.notes.size();
+		String[][] nArray = new String[nNotes][2];
+		for (int i = 0 ; i < nNotes ; i++) {
+			nArray[i][0] = this.notes.get(i).getNoteAuthor();
+			nArray[i][1] = this.notes.get(i).getNoteText();
+		}
+		return nArray;
 	}
 	
 	
@@ -253,7 +353,9 @@ public class TaskItem {
 
 		@Override
 		public void updateState(Command c) throws UnsupportedOperationException{
-			// TODO Auto-generated method stub
+		///	switch (c.getCommand()) {
+		//	c.getNoteAuthor()
+		//	c.getNoteText()
 			
 		}
 
