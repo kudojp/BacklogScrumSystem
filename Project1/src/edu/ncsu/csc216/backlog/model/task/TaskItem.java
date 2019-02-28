@@ -125,6 +125,7 @@ public class TaskItem {
 		this.setState(task.getState());
 		this.setType(task.getType());
 		this.title = task.getTitle();
+		this.isVerified = task.isVerified();
 		this.creator = task.getCreator();
 		this.owner = task.getOwner();
 		this.notes = new ArrayList<Note>();
@@ -290,7 +291,7 @@ public class TaskItem {
 	 * @param c : command 
 	 */
 	public void update(Command c) {
-		
+		state.updateState(c);
 	}
 	
 	/**
@@ -353,15 +354,28 @@ public class TaskItem {
 
 		@Override
 		public void updateState(Command c) throws UnsupportedOperationException{
-		///	switch (c.getCommand()) {
-		//	c.getNoteAuthor()
-		//	c.getNoteText()
+			//NO OWNER !!!
+			//BacklogA(Backlog to Owned) add owner
+			//BacklogB(Backlog to Rejected)　
+			
+			switch(c.getCommand()) {
+			case CLAIM:
+				owner = c.getNoteAuthor();
+				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
+				state = ownedState;
+				break;
+			case REJECT:
+				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
+				state = rejectedState;
+				break;
+			default:
+				throw new UnsupportedOperationException("");
+			}
 			
 		}
 
 		@Override
 		public String getStateName() {
-			// TODO Auto-generated method stub
 			return BACKLOG_NAME;
 		}
 	}
@@ -375,13 +389,34 @@ public class TaskItem {
 
 		@Override
 		public void updateState(Command c) {
-			// TODO Auto-generated method stub
+			//NO AUTHOR with command!!!
+			//OwnedA(Owned to Processing)
+			//OwnedB(Owned to Rejected) remove owner
+			//OwnedC(Owned to Backlog) remove owner
+			
+			switch(c.getCommand()) {
+			case PROCESS:
+				notes.add(new Note(owner, c.getNoteText()));
+				state = processingState;
+				break;
+			case REJECT:
+				notes.add(new Note(owner, c.getNoteText()));
+				owner = null;
+				state = rejectedState;
+				break;
+			case BACKLOG:
+				notes.add(new Note(owner, c.getNoteText()));
+				owner = null;
+				state = backlogState;
+				break;
+			default:
+				throw new UnsupportedOperationException();
+			}
 			
 		}
 
 		@Override
 		public String getStateName() {
-			// TODO Auto-generated method stub
 			return OWNED_NAME;
 		}
 	}
@@ -396,13 +431,49 @@ public class TaskItem {
 
 		@Override
 		public void updateState(Command c) {
-			// TODO Auto-generated method stub
+			// ProcessingA(Processing to Processing)
+			// ProcessingB(Processing to Verifying)
+								//only when type is features,bugs,or technical
+			// ProcessingC(Processing to Done) :
+								//when type is features,bugs,or technical = isVerified has to be true
+								//when type is knowledge = OK
+			// ProcessingD(Processing to Backlog) remove owner
+			
+			switch(c.getCommand()) {
+			case PROCESS:
+				notes.add(new Note(owner, c.getNoteText()));
+				state = processingState;  // actually no change
+				break;
+			case VERIFY:
+				if (type == Type.FEATURE || type == Type.BUG || type == Type.TECHNICAL_WORK) {
+					notes.add(new Note(owner, c.getNoteText()));
+					state = verifyingState;
+				} else {
+					throw new UnsupportedOperationException();
+				}
+				break;
+			case COMPLETE:
+				if (type == Type.KNOWLEDGE_ACQUISITION) {
+					notes.add(new Note(owner, c.getNoteText()));
+					state = doneState;
+				} else if (isVerified) {
+					notes.add(new Note(owner, c.getNoteText()));
+					state = doneState;
+				}
+				break;
+			case BACKLOG:
+				notes.add(new Note(owner, c.getNoteText()));
+				owner = null;
+				state = backlogState;
+				break;
+			default:
+				throw new UnsupportedOperationException();
+			}
 			
 		}
 
 		@Override
 		public String getStateName() {
-			// TODO Auto-generated method stub
 			return PROCESSING_NAME;
 		}
 	}
@@ -417,13 +488,34 @@ public class TaskItem {
 
 		@Override
 		public void updateState(Command c) {
-			// TODO Auto-generated method stub
+			// There is an owner for this item. but note is written by another member!
+			// This state is only for the type is BUG, FEATURE, or TECHNICAL
+			// VerifyingA(Verifying to Done) set ifVerifiedd to True
+			// VerifyingB(Verifying to Processing)
+			
+			if (type == Type.KNOWLEDGE_ACQUISITION) {
+				throw new UnsupportedOperationException();
+			}
+			
+			switch (c.getCommand()) {
+			case COMPLETE:
+				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
+				isVerified = true;
+				state = doneState;
+				break;
+			case PROCESS:
+				
+				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
+				state = processingState;
+				break;
+			default:
+				throw new UnsupportedOperationException();
+			}
 			
 		}
 
 		@Override
 		public String getStateName() {
-			// TODO Auto-generated method stub
 			return VERIFYING_NAME;
 		}
 	}
@@ -439,13 +531,31 @@ public class TaskItem {
 
 		@Override
 		public void updateState(Command c) {
-			// TODO Auto-generated method stub
+			// DoneA(Done to Processing) reset isVerified to false
+			// DoneB(Done to Backlog) remove owner , reset isVerified to false
+			switch (c.getCommand()) {
+			case PROCESS:
+				notes.add(new Note(owner, c.getNoteText()));
+				state = processingState;
+				isVerified = false;
+				notes.add(new Note(owner, c.getNoteText()));
+				state = processingState;
+				break;
+			case BACKLOG:
+				notes.add(new Note(owner, c.getNoteText()));
+				notes.add(new Note(owner, c.getNoteText()));
+				owner = null;
+				isVerified = false;
+				state = backlogState;
+				break;
+			default:
+				throw new UnsupportedOperationException();
+			}
 			
 		}
 
 		@Override
 		public String getStateName() {
-			// TODO Auto-generated method stub
 			return DONE_NAME;
 		}
 	}
@@ -461,19 +571,25 @@ public class TaskItem {
 
 		@Override
 		public void updateState(Command c) {
-			// TODO Auto-generated method stub
+			// NO OWNER !!!
+			//RejectedA(Rejected to Backlog)
+			
+			switch(c.getCommand()) {
+			case REJECT:
+				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
+				state = rejectedState;
+				break;
+			default:
+				throw new UnsupportedOperationException();
+			}
 			
 		}
 
 		@Override
 		public String getStateName() {
-			// TODO Auto-generated method stub
 			return REJECTED_NAME;
 		}
 	}
-	
-	
-	
 	
 
 	/**
@@ -493,7 +609,7 @@ public class TaskItem {
 		 * @throws UnsupportedOperationException if the {@link CommandValue} is not a valid action
 		 * for the given state.
 		 */
-		void updateState(Command c);
+		void updateState(Command c) throws UnsupportedOperationException;
 		
 		/**
 		 * Returns the name of the current state as a String.

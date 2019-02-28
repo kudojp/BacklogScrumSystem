@@ -29,6 +29,7 @@ public class ScrumBacklogModel {
 	 * This constructor is called only by getInstance() static method.
 	 */
 	private ScrumBacklogModel() {
+		this.taskItemList = new TaskItemList();
 	}
 	
 	/**
@@ -98,15 +99,15 @@ public class ScrumBacklogModel {
 	public Object[][] getTaskItemListAsArray(){
 		List<TaskItem> taskItems = this.taskItemList.getTaskItems();
 		int taskCount = taskItems.size();
-		Object[][] taskItemArray = new Object[taskCount][];
+		Object[][] taskItemArray = new Object[taskCount][3];
 		
 		for (int i = 0 ; i < taskCount ; i++) {
 			// task item id 
 			taskItemArray[i][0] = taskItems.get(i).getTaskItemId();
 			// task item state
-			taskItemArray[i][0] = taskItems.get(i).getStateName();
+			taskItemArray[i][1] = taskItems.get(i).getStateName();
 			// task item title
-			taskItemArray[i][0] = taskItems.get(i).getTitle();
+			taskItemArray[i][2] = taskItems.get(i).getTitle();
 		}
 		return taskItemArray;
 	}
@@ -120,15 +121,15 @@ public class ScrumBacklogModel {
 	public Object[][] getTaskItemListByOwnerAsArray(String owner){
 		List<TaskItem> taskItems = this.taskItemList.getTaskItems();
 		int taskCount = taskItems.size();
-		Object[][] taskItemArray = new Object[taskCount][];
+		Object[][] taskItemArray = new Object[taskCount][3];
 		
 		for (int i = 0 ; i < taskCount ; i++) {
 			// task item id 
 			taskItemArray[i][0] = taskItems.get(i).getTaskItemId();
 			// task item state
-			taskItemArray[i][0] = taskItems.get(i).getStateName();
+			taskItemArray[i][1] = taskItems.get(i).getStateName();
 			// task item title
-			taskItemArray[i][0] = taskItems.get(i).getTitle();
+			taskItemArray[i][2] = taskItems.get(i).getTitle();
 		}
 		return taskItemArray;
 	}
@@ -142,7 +143,7 @@ public class ScrumBacklogModel {
 	public Object[][] getTaskItemListByCreatorAsArray(String creator){
 		List<TaskItem> taskItems = this.taskItemList.getTaskItemsByCreator(creator);
 		int taskCount = taskItems.size();
-		Object[][] taskItemArray = new Object[taskCount][];
+		Object[][] taskItemArray = new Object[taskCount][3];
 		
 		for (int i = 0 ; i < taskCount ; i++) {
 			// task item id 
@@ -166,12 +167,12 @@ public class ScrumBacklogModel {
 	}
 	
 	/**
-	 * Executes Command (TO be modified later!!!!!!!!!!!!!!!)
-	 * @param i : int
+	 * Executes Command
+	 * @param id : id of the task to be handled
 	 * @param c : Command
 	 */
-	public void executeCommand(int i, Command c) {
-		
+	public void executeCommand(int id, Command c) {
+		this.taskItemList.executeCommand(id, c);
 	}
 	
 	/**
@@ -190,7 +191,7 @@ public class ScrumBacklogModel {
 	 * @param notes : notes of the new TaskItem
 	 */
 	public void addTaskItemToList(String title, Type type, String creator, String notes) {
-		this.addTaskItemToList(title, type, creator, notes);
+		this.taskItemList.getTaskItems().add(new TaskItem(title, type, creator, notes));
 	}
 
 }

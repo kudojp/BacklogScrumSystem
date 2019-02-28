@@ -5,13 +5,17 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import edu.ncsu.csc216.backlog.model.task.TaskItem;
 import edu.ncsu.csc216.task.xml.TaskIOException;
 import edu.ncsu.csc216.task.xml.TaskReader;
 
+
+/**
+ * Tests TaskItemList class.
+ * @author Daiki Kudo
+ */
 public class TaskItemListTest extends TaskItemList {
 	
 	private static final String VALID_TITLE = "Jump errror";
@@ -20,9 +24,6 @@ public class TaskItemListTest extends TaskItemList {
 			
 	private static final String VALID_FILE = "test_files/tasks_valid.xml";
 
-	@Before
-	public void setUp() throws Exception {
-	}
 
 	/**
 	 * Tests constructor
@@ -38,6 +39,9 @@ public class TaskItemListTest extends TaskItemList {
 		assertEquals(0, til.getTaskItems().size());
 	}
 
+	/**
+	 * Tests addTaskItem() 
+	 */
 	@Test
 	public void testAddTaskItem() {
 		TaskItemList til = null;
@@ -56,7 +60,9 @@ public class TaskItemListTest extends TaskItemList {
 	}
 	
 	
-
+	/**
+	 * Tests addXMLTasks()
+	 */
 	@Test
 	public void testAddXMLTasks() {
 		TaskReader tr = null;
@@ -73,6 +79,9 @@ public class TaskItemListTest extends TaskItemList {
 		
 	}
 
+	/**
+	 * Tests .getTaskItem()
+	 */
 	@Test
 	public void testGetTaskItems() {
 		TaskItemList til = new TaskItemList();
@@ -93,6 +102,9 @@ public class TaskItemListTest extends TaskItemList {
 		
 	}
 
+	/**
+	 * Tests .getTaskItemsByOwner()
+	 */
 	@Test
 	public void testGetTaskItemsByOwner() {
 		
@@ -116,6 +128,9 @@ public class TaskItemListTest extends TaskItemList {
 		
 	}
 
+	/**
+	 * Tests .getTaskItemsByOwner()
+	 */
 	@Test
 	public void testGetTaskItemsByCreator() {
 		TaskReader tr = null;
@@ -136,7 +151,10 @@ public class TaskItemListTest extends TaskItemList {
 		assertEquals(0, tiList2.size());
 		
 	}
-
+	
+	/**
+	 * Tests .getTaskById()
+	 */
 	@Test
 	public void testGetTaskItemById() {
 		TaskReader tr = null;
@@ -161,11 +179,17 @@ public class TaskItemListTest extends TaskItemList {
 		assertNull(ti2);
 	}
 
+	/**
+	 * Tests .executeCommand()
+	 */
 	@Test
 	public void testExecuteCommand() {
 		fail("Not yet implemented");
 	}
-
+	
+	/**
+	 * Tests .deleteTaskItemById()
+	 */
 	@Test
 	public void testDeleteTaskItemById() {
 		TaskReader tr = null;

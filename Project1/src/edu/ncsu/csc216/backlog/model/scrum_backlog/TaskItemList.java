@@ -131,12 +131,12 @@ public class TaskItemList {
 	}
 
 	/**
-	 * Executes given command (To be described more!!!!!!!!!)
-	 * @param i : int
-	 * @param c : command
+	 * Executes given command
+	 * @param id : id of the task to be handeled
+	 * @param c : command given
 	 */
-	public void executeCommand(int i, Command c) {
-		
+	public void executeCommand(int id, Command c) {
+		this.getTaskItemById(id).update(c);
 	}
 	
 	/**
@@ -145,7 +145,7 @@ public class TaskItemList {
 	 */
 	public void deleteTaskItemById(int id) {
 		
-		for (int i = this.tasks.size()-1 ;  0 <= i ; i--) {
+		for (int i = this.tasks.size() - 1 ;  0 <= i ; i--) {
 			if (this.tasks.get(i).getTaskItemId() == id) {
 				this.tasks.remove(i);	
 			}
