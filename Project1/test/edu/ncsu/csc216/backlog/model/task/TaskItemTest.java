@@ -1,8 +1,9 @@
 package edu.ncsu.csc216.backlog.model.task;
 
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import edu.ncsu.csc216.backlog.model.command.Command;
 import edu.ncsu.csc216.backlog.model.command.Command.CommandValue;
@@ -50,7 +51,7 @@ public class TaskItemTest {
 	 * Sets the static counter of TaskItem to 0.
 	 * @throws java.lang.Exception
 	 */
-	@BeforeEach
+	@Before
 	void setUp() throws Exception {
 		TaskItem.setCounter(1);
 		
