@@ -24,14 +24,13 @@ public class TaskItemList {
 	 * Sets the counter to 1 for the first ItemTask to be stored.
 	 */
 	public TaskItemList() {
-		this.tasks = new ArrayList<TaskItem>();
+		this.emptyList();
 		TaskItem.setCounter(INITIAL_COUNTER_VALUE);
 	}
 	
-	/**
 	private void emptyList() {
 		this.tasks = new ArrayList<TaskItem>();
-	}*/
+	}
 	
 	/**
 	 * Adds new Task Item to this TaskItemList
