@@ -100,10 +100,8 @@ public class TaskItemList {
 		List<TaskItem> filteredTasks = new ArrayList<TaskItem>();
 
 		for (TaskItem eachTaskItem : this.tasks) {
-			if (eachTaskItem.getCreator() != null) {
-				if (eachTaskItem.getCreator().equals(creator)) {
-					filteredTasks.add(eachTaskItem);
-				}
+			if (eachTaskItem.getCreator() != null && eachTaskItem.getCreator().equals(creator)) {
+				filteredTasks.add(eachTaskItem);
 			}
 		}
 		return filteredTasks;
