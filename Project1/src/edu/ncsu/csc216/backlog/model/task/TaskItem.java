@@ -67,7 +67,7 @@ public class TaskItem {
 	public static final String T_BUG = "B";
 	/** static String which represents "Technical" Type */
 	public static final String T_TECHNICAL = "TW";
-	/** static String which represents "Knowledge acquisition" Type */
+	/** static String which represents "Knowledge Acquisition" Type */
 	public static final String T_KNOWLEDGE_ACQUISITION = "KA";
 	
 	/** static full String which represents "Feature" Type */
