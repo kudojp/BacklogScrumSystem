@@ -456,10 +456,15 @@ public class TaskItem {
 				if (type == Type.KNOWLEDGE_ACQUISITION) {
 					notes.add(new Note(owner, c.getNoteText()));
 					state = doneState;
-				} else if (isVerified) {
-					notes.add(new Note(owner, c.getNoteText()));
-					state = doneState;
+				} else {
+					throw new UnsupportedOperationException();
 				}
+				
+				
+				//} else if (isVerified) {
+				//	notes.add(new Note(owner, c.getNoteText()));
+				//	state = doneState;
+				//}
 				break;
 			case BACKLOG:
 				notes.add(new Note(owner, c.getNoteText()));

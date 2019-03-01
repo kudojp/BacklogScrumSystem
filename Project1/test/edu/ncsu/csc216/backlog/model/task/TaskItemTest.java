@@ -370,10 +370,10 @@ public class TaskItemTest {
 	 */
 	@Test
 	public void testBacklogState() {
+		// 1. BacklogA to Owned
 		// create a TaskItem
 		TaskItem ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
-
-		// BacklogA to Owned
+		// 
 		ti.update(new Command(CommandValue.CLAIM, "bo", "BacklogA"));
 		assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
 		assertEquals(TaskItem.Type.BUG, ti.getType());   //No change ever
@@ -385,10 +385,8 @@ public class TaskItemTest {
 		assertEquals("BacklogA", ti.getNotes().get(1).getNoteText());   //The last note text
 		
 		
-		// create a TaskItem
+		// 2. BacklogB to Rejected
 		ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
-
-		// BacklogB to Rejected
 		ti.update(new Command(CommandValue.REJECT, "br", "BacklogB"));
 		assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
 		assertEquals(TaskItem.Type.BUG, ti.getType());   //No change ever
@@ -398,8 +396,80 @@ public class TaskItemTest {
 		assertEquals(2, ti.getNotes().size());			   // Number of notes
 		assertEquals("br", ti.getNotes().get(1).getNoteAuthor());       //The last note author
 		assertEquals("BacklogB", ti.getNotes().get(1).getNoteText());   //The last note text
+		
+		// 3. Backlog to Processing (error)
+		try {
+			ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
+			ti.update(new Command(CommandValue.PROCESS, "bp", "ERROR"));
+			fail();
+		} catch (UnsupportedOperationException e) {
+			assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
+			assertEquals(TaskItem.Type.BUG, ti.getType());   //No change ever
+			assertEquals(VALID_CREATOR, ti.getCreator());    //No change ever
+			assertNull(ti.getOwner());								// owner name
+			assertEquals(TaskItem.BACKLOG_NAME, ti.getStateName());  // State
+			assertEquals(1, ti.getNotes().size());			   // Number of notes
+			assertEquals(VALID_CREATOR, ti.getNotes().get(0).getNoteAuthor());       //The last note author
+			assertEquals(VALID_NOTE, ti.getNotes().get(0).getNoteText());   //The last note text
+		}
+		
+		
+		// 4. Backlog to Verifying (error)
+		try {
+			ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
+			ti.update(new Command(CommandValue.VERIFY, "bv", "ERROR"));
+			fail();
+		} catch (UnsupportedOperationException e) {
+			assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
+			assertEquals(TaskItem.Type.BUG, ti.getType());   //No change ever
+			assertEquals(VALID_CREATOR, ti.getCreator());    //No change ever
+			assertNull(ti.getOwner());								// owner name
+			assertEquals(TaskItem.BACKLOG_NAME, ti.getStateName());  // State
+			assertEquals(1, ti.getNotes().size());			   // Number of notes
+			assertEquals(VALID_CREATOR, ti.getNotes().get(0).getNoteAuthor());       //The last note author
+			assertEquals(VALID_NOTE, ti.getNotes().get(0).getNoteText());   //The last note text
+		}
+		
+				
+		// 5. Backlog to Done (error)
+		try {
+			ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
+			ti.update(new Command(CommandValue.COMPLETE, "bd", "ERROR"));
+			fail();
+		} catch (UnsupportedOperationException e) {
+			assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
+			assertEquals(TaskItem.Type.BUG, ti.getType());   //No change ever
+			assertEquals(VALID_CREATOR, ti.getCreator());    //No change ever
+			assertNull(ti.getOwner());								// owner name
+			assertEquals(TaskItem.BACKLOG_NAME, ti.getStateName());  // State
+			assertEquals(1, ti.getNotes().size());			   // Number of notes
+			assertEquals(VALID_CREATOR, ti.getNotes().get(0).getNoteAuthor());       //The last note author
+			assertEquals(VALID_NOTE, ti.getNotes().get(0).getNoteText());   //The last note text
+		}
+		
+		
+		// 6. Backlog to Backlog (error)
+		try {
+			ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
+			ti.update(new Command(CommandValue.BACKLOG, "bb", "ERROR"));
+			fail();
+		} catch (UnsupportedOperationException e) {
+			assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
+			assertEquals(TaskItem.Type.BUG, ti.getType());   //No change ever
+			assertEquals(VALID_CREATOR, ti.getCreator());    //No change ever
+			assertNull(ti.getOwner());								// owner name
+			assertEquals(TaskItem.BACKLOG_NAME, ti.getStateName());  // State
+			assertEquals(1, ti.getNotes().size());			   // Number of notes
+			assertEquals(VALID_CREATOR, ti.getNotes().get(0).getNoteAuthor());       //The last note author
+			assertEquals(VALID_NOTE, ti.getNotes().get(0).getNoteText());   //The last note text
+		}
+		
 				
 	}
+	
+	
+	
+	
 	
 	
 	/**
@@ -407,11 +477,10 @@ public class TaskItemTest {
 	 */
 	@Test
 	public void testOwnedState() {
-		// create a TaskItem
+		//  1.OwnedA to Processing
 		TaskItem ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
 		ti.update(new Command(CommandValue.CLAIM, "bo", "BtoO"));
-
-		// OwnedA to Processing
+		//
 		ti.update(new Command(CommandValue.PROCESS, "name not used", "ownedA"));
 		assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
 		assertEquals(TaskItem.Type.BUG, ti.getType());   //No change ever
@@ -423,11 +492,10 @@ public class TaskItemTest {
 		assertEquals("ownedA", ti.getNotes().get(2).getNoteText());   //The last note text
 		
 		
-		// create a TaskItem
+		//2. OwnedB to Rejected
 		ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
 		ti.update(new Command(CommandValue.CLAIM, "bo", "BtoO"));
-
-		// OwnedB to Rejected
+		// 
 		ti.update(new Command(CommandValue.REJECT, "name not used", "ownedB"));
 		assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
 		assertEquals(TaskItem.Type.BUG, ti.getType());   //No change ever
@@ -438,11 +506,10 @@ public class TaskItemTest {
 		assertEquals("bo", ti.getNotes().get(2).getNoteAuthor());       //The last note author
 		assertEquals("ownedB", ti.getNotes().get(2).getNoteText());   //The last note text
 		
-		// create a TaskItem
+		// 3. OwnedC to backlog
 		ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
 		ti.update(new Command(CommandValue.CLAIM, "bo", "BtoO"));
-
-		// OwnedC to backlog
+		// 
 		ti.update(new Command(CommandValue.BACKLOG, "name not used", "ownedC"));
 		assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
 		assertEquals(TaskItem.Type.BUG, ti.getType());   //No change ever
@@ -452,7 +519,59 @@ public class TaskItemTest {
 		assertEquals(3, ti.getNotes().size());			   // Number of notes
 		assertEquals("bo", ti.getNotes().get(2).getNoteAuthor());       //The last note author
 		assertEquals("ownedC", ti.getNotes().get(2).getNoteText());   //The last note text
-
+		
+		
+		//4. Owned to Verifying (error)
+		ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
+		ti.update(new Command(CommandValue.CLAIM, "bo", "BtoO"));
+		// 
+		try {
+			ti.update(new Command(CommandValue.VERIFY, "name not used", "error"));
+			fail();
+		} catch (UnsupportedOperationException e) {
+			assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
+			assertEquals(TaskItem.Type.BUG, ti.getType());   //No change ever
+			assertEquals(VALID_CREATOR, ti.getCreator());    //No change ever
+			assertEquals("bo", ti.getOwner());						// owner name
+			assertEquals(TaskItem.OWNED_NAME, ti.getStateName());  // State
+			assertEquals(2, ti.getNotes().size());			   // Number of notes
+			
+		}
+		
+		// 5. OwnedC to done(error)
+		ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
+		ti.update(new Command(CommandValue.CLAIM, "bo", "BtoO"));
+		// 
+		try {
+			ti.update(new Command(CommandValue.COMPLETE, "name not used", "error"));
+			fail();
+		} catch (UnsupportedOperationException e) {
+			assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
+			assertEquals(TaskItem.Type.BUG, ti.getType());   //No change ever
+			assertEquals(VALID_CREATOR, ti.getCreator());    //No change ever
+			assertEquals("bo", ti.getOwner());						// owner name
+			assertEquals(TaskItem.OWNED_NAME, ti.getStateName());  // State
+			assertEquals(2, ti.getNotes().size());			   // Number of notes
+		}
+		
+		
+		// 6. OwnedC to owned(error)
+		ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
+		ti.update(new Command(CommandValue.CLAIM, "bo", "BtoO"));
+		// 
+		try {
+			ti.update(new Command(CommandValue.CLAIM, "name not used", "error"));
+			fail();
+		} catch (UnsupportedOperationException e) {
+			assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
+			assertEquals(TaskItem.Type.BUG, ti.getType());   //No change ever
+			assertEquals(VALID_CREATOR, ti.getCreator());    //No change ever
+			assertEquals("bo", ti.getOwner());						// owner name
+			assertEquals(TaskItem.OWNED_NAME, ti.getStateName());  // State
+			assertEquals(2, ti.getNotes().size());			   // Number of notes
+		}
+	
+		
 	}
 	
 	
@@ -460,12 +579,12 @@ public class TaskItemTest {
 	 * Tests path from Processing state, that is, this tests inner class ProcessingState.
 	 */
 	@Test
-	public void testProcessingState (){
-		// create a TaskItem of BUG
+	public void testProcessingStateBUG (){
+		// ProcessingA to processing
 		TaskItem ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
 		ti.update(new Command(CommandValue.CLAIM, "bo", "BtoO"));
 		ti.update(new Command(CommandValue.PROCESS, "op", "OtoP"));
-		//ProcessingA to processing
+		//
 		ti.update(new Command(CommandValue.PROCESS, "name not used", "PtoP"));
 		assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
 		assertEquals(TaskItem.Type.BUG, ti.getType());   //No change ever
@@ -475,16 +594,16 @@ public class TaskItemTest {
 		assertEquals(4, ti.getNotes().size());			   // Number of notes
 		assertEquals("bo", ti.getNotes().get(3).getNoteAuthor());       //The last note author
 		assertEquals("PtoP", ti.getNotes().get(3).getNoteText());   //The last note text
-		//ProcessingC to Done(when type is BUG, but not verified yet)
+		
 
 		
 		
 		
-		// Create a TaskItem of BUG 
+		// ProcessingB to verified (when Type is Bug)
 		ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
 		ti.update(new Command(CommandValue.CLAIM, "bo", "BtoO"));
 		ti.update(new Command(CommandValue.PROCESS, "op", "OtoP"));
-		//ProcessingB to verified (when Type is Bug)
+		//
 		ti.update(new Command(CommandValue.VERIFY, "name not used", "PtoV"));
 		assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
 		assertEquals(TaskItem.Type.BUG, ti.getType());   //No change ever
@@ -494,39 +613,131 @@ public class TaskItemTest {
 		assertEquals(4, ti.getNotes().size());			   // Number of notes
 		assertEquals("bo", ti.getNotes().get(3).getNoteAuthor());       //The last note author
 		assertEquals("PtoV", ti.getNotes().get(3).getNoteText());   //The last note text
+
+		
+		
+		// ProcessingC to Done(This should throw an error since this is BUG type)
+		ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
+		ti.update(new Command(CommandValue.CLAIM, "bo", "BtoO"));
+		ti.update(new Command(CommandValue.PROCESS, "op", "OtoP"));
 		//
-		// VerifyingB back to processing
-		ti.update(new Command(CommandValue.PROCESS, "name not used", "VtoP"));
-		/**
+		try {
+			ti.update(new Command(CommandValue.COMPLETE, "name not used", "PtoD"));
+			fail();
+		} catch (UnsupportedOperationException e) {
+			assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
+			assertEquals(TaskItem.Type.BUG, ti.getType());   //No change ever
+			assertEquals(VALID_CREATOR, ti.getCreator());    //No change ever
+			assertEquals("bo", ti.getOwner());						// owner name
+			assertEquals(TaskItem.PROCESSING_NAME, ti.getStateName());  // State
+			assertEquals(3, ti.getNotes().size());			   // Number of notes
+			assertEquals("bo", ti.getNotes().get(2).getNoteAuthor());       //The last note author
+			assertEquals("OtoP", ti.getNotes().get(2).getNoteText());   //The last note text
+			
+		}
+		
+		// ProcessingD to Backlog
+		ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
+		ti.update(new Command(CommandValue.CLAIM, "bo", "BtoO"));
+		ti.update(new Command(CommandValue.PROCESS, "op", "OtoP"));
 		//
-		// ProcessingC to done
-		ti.update(new Command(CommandValue.COMPLETE, "name not used", "PtoD"));
+		ti.update(new Command(CommandValue.BACKLOG, "name not used", "PtoB"));
 		assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
 		assertEquals(TaskItem.Type.BUG, ti.getType());   //No change ever
 		assertEquals(VALID_CREATOR, ti.getCreator());    //No change ever
+		assertNull(ti.getOwner());						// owner name
+		assertEquals(TaskItem.BACKLOG_NAME, ti.getStateName());  // State
+		assertEquals(4, ti.getNotes().size());			   // Number of notes
+		assertEquals("bo", ti.getNotes().get(3).getNoteAuthor());       //The last note author
+		assertEquals("PtoB", ti.getNotes().get(3).getNoteText());   //The last note text
+			
+		
+		
+		// Processing to Owned (This should throw an error since this is BUG type)
+		ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
+		ti.update(new Command(CommandValue.CLAIM, "bo", "BtoO"));
+		ti.update(new Command(CommandValue.PROCESS, "op", "OtoP"));
+		//
+		try {
+			ti.update(new Command(CommandValue.CLAIM, "name not used", "PtoO"));
+			fail();
+		} catch (UnsupportedOperationException e) {
+			assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
+			assertEquals(TaskItem.Type.BUG, ti.getType());   //No change ever
+			assertEquals(VALID_CREATOR, ti.getCreator());    //No change ever
+			assertEquals("bo", ti.getOwner());						// owner name
+			assertEquals(TaskItem.PROCESSING_NAME, ti.getStateName());  // State
+			assertEquals(3, ti.getNotes().size());			   // Number of notes
+			assertEquals("bo", ti.getNotes().get(2).getNoteAuthor());       //The last note author
+			assertEquals("OtoP", ti.getNotes().get(2).getNoteText());   //The last note text
+			
+		}
+		
+		// Processing to Rejected (This should throw an error since this is BUG type)
+		ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
+		ti.update(new Command(CommandValue.CLAIM, "bo", "BtoO"));
+		ti.update(new Command(CommandValue.PROCESS, "op", "OtoP"));
+		//
+		try {
+			ti.update(new Command(CommandValue.REJECT, "name not used", "PtoR"));
+			fail();
+		} catch (UnsupportedOperationException e) {
+			assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
+			assertEquals(TaskItem.Type.BUG, ti.getType());   //No change ever
+			assertEquals(VALID_CREATOR, ti.getCreator());    //No change ever
+			assertEquals("bo", ti.getOwner());						// owner name
+			assertEquals(TaskItem.PROCESSING_NAME, ti.getStateName());  // State
+			assertEquals(3, ti.getNotes().size());			   // Number of notes
+			assertEquals("bo", ti.getNotes().get(2).getNoteAuthor());       //The last note author
+			assertEquals("OtoP", ti.getNotes().get(2).getNoteText());   //The last note text
+			
+		}
+		
+
+	}
+		
+	@Test
+	public void testProcessingStateKnowledge(){
+		// ProcessingA to Processing
+		TaskItem ti = new TaskItem(VALID_TITLE, TaskItem.Type.KNOWLEDGE_ACQUISITION, VALID_CREATOR, VALID_NOTE);
+		ti.update(new Command(CommandValue.CLAIM, "bo", "BtoO"));
+		ti.update(new Command(CommandValue.PROCESS, "op", "OtoP"));
+		//
+		ti.update(new Command(CommandValue.PROCESS, "name not used", "PtoP"));
+		assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
+		assertEquals(TaskItem.Type.KNOWLEDGE_ACQUISITION, ti.getType());   //No change ever
+		assertEquals(VALID_CREATOR, ti.getCreator());    //No change ever
 		assertEquals("bo", ti.getOwner());						// owner name
-		assertEquals(TaskItem.DONE_NAME, ti.getStateName());  // State
-		assertEquals(5, ti.getNotes().size());			   // Number of notes
-		assertEquals("bo", ti.getNotes().get(4).getNoteAuthor());       //The last note author
-		assertEquals("PtoD", ti.getNotes().get(4).getNoteText());   //The last note text
+		assertEquals(TaskItem.PROCESSING_NAME, ti.getStateName());  // State
+		assertEquals(4, ti.getNotes().size());			   // Number of notes
+		assertEquals("bo", ti.getNotes().get(3).getNoteAuthor());       //The last note author
+		assertEquals("PtoP", ti.getNotes().get(3).getNoteText());   //The last note text
+	
 		
-		
-		
-		
-		// create a TaskItem of KNOWLEDGE
+		//ProcessingB to Verified should throw exception (when type is KNOWLEDGE)
 		ti = new TaskItem(VALID_TITLE, TaskItem.Type.KNOWLEDGE_ACQUISITION, VALID_CREATOR, VALID_NOTE);
 		ti.update(new Command(CommandValue.CLAIM, "bo", "BtoO"));
-		assertEquals(TaskItem.Type.KNOWLEDGE_ACQUISITION, ti.getType());   //No change ever
 		ti.update(new Command(CommandValue.PROCESS, "op", "OtoP"));
-		//ProcessingB to verified should throw exception (when type is KNOWLEDGE)
 		try {
 			ti.update(new Command(CommandValue.VERIFY, "name not used", "PtoV"));
 			fail();
 		} catch (UnsupportedOperationException e) {
-			assertEquals(TaskItem.PROCESSING_NAME, ti.getStateName());
+			assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
+			assertEquals(TaskItem.Type.KNOWLEDGE_ACQUISITION, ti.getType());   //No change ever
+			assertEquals(VALID_CREATOR, ti.getCreator());    //No change ever
+			assertEquals("bo", ti.getOwner());						// owner name
+			assertEquals(TaskItem.PROCESSING_NAME, ti.getStateName());  // State
+			assertEquals(3, ti.getNotes().size());			   // Number of notes
+			assertEquals("bo", ti.getNotes().get(2).getNoteAuthor());       //The last note author
+			assertEquals("OtoP", ti.getNotes().get(2).getNoteText());   //The last note text
 		}
-		// ProcessingC to Done(when type is KNOWLEDGE)
-		ti.update(new Command(CommandValue.COMPLETE, "name not used", "PtoV"));
+	
+		// ProcessingC to Done
+		ti = new TaskItem(VALID_TITLE, TaskItem.Type.KNOWLEDGE_ACQUISITION, VALID_CREATOR, VALID_NOTE);
+		ti.update(new Command(CommandValue.CLAIM, "bo", "BtoO"));
+		ti.update(new Command(CommandValue.PROCESS, "op", "OtoP"));
+		//
+		ti.update(new Command(CommandValue.COMPLETE, "name not used", "PtoD"));
 		assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
 		assertEquals(TaskItem.Type.KNOWLEDGE_ACQUISITION, ti.getType());   //No change ever
 		assertEquals(VALID_CREATOR, ti.getCreator());    //No change ever
@@ -534,11 +745,171 @@ public class TaskItemTest {
 		assertEquals(TaskItem.DONE_NAME, ti.getStateName());  // State
 		assertEquals(4, ti.getNotes().size());			   // Number of notes
 		assertEquals("bo", ti.getNotes().get(3).getNoteAuthor());       //The last note author
-		assertEquals("PtoV", ti.getNotes().get(3).getNoteText());   //The last note text
+		assertEquals("PtoD", ti.getNotes().get(3).getNoteText());   //The last note text
 		
-		*/
+		// ProcessingD to Backlog
+		ti = new TaskItem(VALID_TITLE, TaskItem.Type.KNOWLEDGE_ACQUISITION, VALID_CREATOR, VALID_NOTE);
+		ti.update(new Command(CommandValue.CLAIM, "bo", "BtoO"));
+		ti.update(new Command(CommandValue.PROCESS, "op", "OtoP"));
+		//
+		ti.update(new Command(CommandValue.COMPLETE, "name not used", "PtoD"));
+		assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
+		assertEquals(TaskItem.Type.KNOWLEDGE_ACQUISITION, ti.getType());   //No change ever
+		assertEquals(VALID_CREATOR, ti.getCreator());    //No change ever
+		assertEquals("bo", ti.getOwner());						// owner name
+		assertEquals(TaskItem.DONE_NAME, ti.getStateName());  // State
+		assertEquals(4, ti.getNotes().size());			   // Number of notes
+		assertEquals("bo", ti.getNotes().get(3).getNoteAuthor());       //The last note author
+		assertEquals("PtoD", ti.getNotes().get(3).getNoteText());   //The last note text
+				
+		
+		
+		
+		//Processing to Owned should throw exception
+		ti = new TaskItem(VALID_TITLE, TaskItem.Type.KNOWLEDGE_ACQUISITION, VALID_CREATOR, VALID_NOTE);
+		ti.update(new Command(CommandValue.CLAIM, "bo", "BtoO"));
+		ti.update(new Command(CommandValue.PROCESS, "op", "OtoP"));
+		try {
+			ti.update(new Command(CommandValue.VERIFY, "name not used", "PtoO"));
+			fail();
+		} catch (UnsupportedOperationException e) {
+			assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
+			assertEquals(TaskItem.Type.KNOWLEDGE_ACQUISITION, ti.getType());   //No change ever
+			assertEquals(VALID_CREATOR, ti.getCreator());    //No change ever
+			assertEquals("bo", ti.getOwner());						// owner name
+			assertEquals(TaskItem.PROCESSING_NAME, ti.getStateName());  // State
+			assertEquals(3, ti.getNotes().size());			   // Number of notes
+			assertEquals("bo", ti.getNotes().get(2).getNoteAuthor());       //The last note author
+			assertEquals("OtoP", ti.getNotes().get(2).getNoteText());   //The last note text
+		}
+				
+		//Processing to Rejected should throw exception
+		ti = new TaskItem(VALID_TITLE, TaskItem.Type.KNOWLEDGE_ACQUISITION, VALID_CREATOR, VALID_NOTE);
+		ti.update(new Command(CommandValue.CLAIM, "bo", "BtoO"));
+		ti.update(new Command(CommandValue.PROCESS, "op", "OtoP"));
+		try {
+			ti.update(new Command(CommandValue.VERIFY, "name not used", "PtoR"));
+			fail();
+		} catch (UnsupportedOperationException e) {
+			assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
+			assertEquals(TaskItem.Type.KNOWLEDGE_ACQUISITION, ti.getType());   //No change ever
+			assertEquals(VALID_CREATOR, ti.getCreator());    //No change ever
+			assertEquals("bo", ti.getOwner());						// owner name
+			assertEquals(TaskItem.PROCESSING_NAME, ti.getStateName());  // State
+			assertEquals(3, ti.getNotes().size());			   // Number of notes
+			assertEquals("bo", ti.getNotes().get(2).getNoteAuthor());       //The last note author
+			assertEquals("OtoP", ti.getNotes().get(2).getNoteText());   //The last note text
+		}
+		
+				
 	}
+	
+	/**
+	 * Tests path from Verifying state, that is, this tests inner class VerifyingState.
+	 * This state can be taken only by BUG, FEATURE, TECHNICAL types
+	 */
+	@Test
+	public void testVerifying() {
+		// VerifyingA to done
+		TaskItem ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
+		ti.update(new Command(CommandValue.CLAIM, "bo", "BtoO"));
+		ti.update(new Command(CommandValue.PROCESS, "name not used", "OtoP"));
+		ti.update(new Command(CommandValue.VERIFY, "name not used", "PtoV"));
+		//
+		ti.update(new Command(CommandValue.COMPLETE, "vd", "VtoD"));
+		assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
+		assertEquals(TaskItem.Type.BUG, ti.getType());   //No change ever
+		assertEquals(VALID_CREATOR, ti.getCreator());    //No change ever
+		assertEquals("bo", ti.getOwner());						// owner name
+		assertEquals(TaskItem.DONE_NAME, ti.getStateName());  // State
+		assertEquals(5, ti.getNotes().size());			   // Number of notes
+		assertEquals("vd", ti.getNotes().get(4).getNoteAuthor());       //The last note author
+		assertEquals("VtoD", ti.getNotes().get(4).getNoteText());   //The last note text
 		
+		//VerifyingB to Processing
+		ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
+		ti.update(new Command(CommandValue.CLAIM, "bo", "BtoO"));
+		ti.update(new Command(CommandValue.PROCESS, "name not used", "OtoP"));
+		ti.update(new Command(CommandValue.VERIFY, "name not used", "PtoV"));
+		//
+		ti.update(new Command(CommandValue.PROCESS, "vp", "VtoP"));
+		assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
+		assertEquals(TaskItem.Type.BUG, ti.getType());   //No change ever
+		assertEquals(VALID_CREATOR, ti.getCreator());    //No change ever
+		assertEquals("bo", ti.getOwner());						// owner name
+		assertEquals(TaskItem.PROCESSING_NAME, ti.getStateName());  // State
+		assertEquals(5, ti.getNotes().size());			   // Number of notes
+		assertEquals("vp", ti.getNotes().get(4).getNoteAuthor());       //The last note author
+		assertEquals("VtoP", ti.getNotes().get(4).getNoteText());   //The last note text
+		
+		
+		// Verifying to Backlog (error)
+		ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
+		ti.update(new Command(CommandValue.CLAIM, "bo", "BtoO"));
+		ti.update(new Command(CommandValue.PROCESS, "name not used", "OtoP"));
+		ti.update(new Command(CommandValue.VERIFY, "name not used", "PtoV"));
+		//
+		try {
+			ti.update(new Command(CommandValue.BACKLOG, "vp", "VtoP"));
+		} catch (UnsupportedOperationException e) {
+			assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
+			assertEquals(TaskItem.Type.BUG, ti.getType());   //No change ever
+			assertEquals(VALID_CREATOR, ti.getCreator());    //No change ever
+			assertEquals("bo", ti.getOwner());						// owner name
+			assertEquals(TaskItem.VERIFYING_NAME, ti.getStateName());  // State
+			assertEquals(4, ti.getNotes().size());			   // Number of notes
+			assertEquals("bo", ti.getNotes().get(3).getNoteAuthor());       //The last note author
+			assertEquals("PtoV", ti.getNotes().get(3).getNoteText());   //The last note text
+		}
+	
+		
+		
+		
+		// Verifying to Owned (error)
+		ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
+		ti.update(new Command(CommandValue.CLAIM, "bo", "BtoO"));
+		ti.update(new Command(CommandValue.PROCESS, "name not used", "OtoP"));
+		ti.update(new Command(CommandValue.VERIFY, "name not used", "PtoV"));
+		//
+		try {
+			ti.update(new Command(CommandValue.CLAIM, "vp", "VtoP"));
+		} catch (UnsupportedOperationException e) {
+			assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
+			assertEquals(TaskItem.Type.BUG, ti.getType());   //No change ever
+			assertEquals(VALID_CREATOR, ti.getCreator());    //No change ever
+			assertEquals("bo", ti.getOwner());						// owner name
+			assertEquals(TaskItem.VERIFYING_NAME, ti.getStateName());  // State
+			assertEquals(4, ti.getNotes().size());			   // Number of notes
+			assertEquals("bo", ti.getNotes().get(3).getNoteAuthor());       //The last note author
+			assertEquals("PtoV", ti.getNotes().get(3).getNoteText());   //The last note text
+		}
+		
+		
+		
+		// Verifying to Rejected (error)
+		ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
+		ti.update(new Command(CommandValue.CLAIM, "bo", "BtoO"));
+		ti.update(new Command(CommandValue.PROCESS, "name not used", "OtoP"));
+		ti.update(new Command(CommandValue.VERIFY, "name not used", "PtoV"));
+		//
+		try {
+			ti.update(new Command(CommandValue.REJECT, "vp", "VtoP"));
+		} catch (UnsupportedOperationException e) {
+			assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
+			assertEquals(TaskItem.Type.BUG, ti.getType());   //No change ever
+			assertEquals(VALID_CREATOR, ti.getCreator());    //No change ever
+			assertEquals("bo", ti.getOwner());						// owner name
+			assertEquals(TaskItem.VERIFYING_NAME, ti.getStateName());  // State
+			assertEquals(4, ti.getNotes().size());			   // Number of notes
+			assertEquals("bo", ti.getNotes().get(3).getNoteAuthor());       //The last note author
+			assertEquals("PtoV", ti.getNotes().get(3).getNoteText());   //The last note text
+		}
+		
+		
+		
+		
+		
+	}
 	
 	
 	/**
@@ -546,12 +917,12 @@ public class TaskItemTest {
 	 */
 	@Test
 	public void testDoneState (){
-		// create a TaskItem of BUG
+		// DoneA to Processing
 		TaskItem ti = new TaskItem(VALID_TITLE, TaskItem.Type.KNOWLEDGE_ACQUISITION, VALID_CREATOR, VALID_NOTE);
 		ti.update(new Command(CommandValue.CLAIM, "bo", "BtoO"));
 		ti.update(new Command(CommandValue.PROCESS, "op", "OtoP"));
 		ti.update(new Command(CommandValue.COMPLETE, "pd", "PtoD"));
-		// DoneA to Processing
+		// 
 		ti.update(new Command(CommandValue.PROCESS, "dp", "DtoP"));
 		assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
 		assertEquals(TaskItem.Type.KNOWLEDGE_ACQUISITION, ti.getType());   //No change ever
@@ -563,12 +934,12 @@ public class TaskItemTest {
 		assertEquals("DtoP", ti.getNotes().get(4).getNoteText());   //The last note text
 	
 		
-		// create a TaskItem of BUG
+		// DoneB to Backlog
 		ti = new TaskItem(VALID_TITLE, TaskItem.Type.KNOWLEDGE_ACQUISITION, VALID_CREATOR, VALID_NOTE);
 		ti.update(new Command(CommandValue.CLAIM, "bo", "BtoO"));
 		ti.update(new Command(CommandValue.PROCESS, "op", "OtoP"));
 		ti.update(new Command(CommandValue.COMPLETE, "pd", "PtoD"));
-		// DoneB to Backlog
+		// 
 		ti.update(new Command(CommandValue.BACKLOG, "db", "DtoB"));
 		assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
 		assertEquals(TaskItem.Type.KNOWLEDGE_ACQUISITION, ti.getType());   //No change ever
@@ -579,6 +950,72 @@ public class TaskItemTest {
 		assertEquals("bo", ti.getNotes().get(4).getNoteAuthor());       //The last note author
 		assertEquals("DtoB", ti.getNotes().get(4).getNoteText());   //The last note text
 		
+		
+		// Done to Owned (error)
+		ti = new TaskItem(VALID_TITLE, TaskItem.Type.KNOWLEDGE_ACQUISITION, VALID_CREATOR, VALID_NOTE);
+		ti.update(new Command(CommandValue.CLAIM, "bo", "BtoO"));
+		ti.update(new Command(CommandValue.PROCESS, "op", "OtoP"));
+		ti.update(new Command(CommandValue.COMPLETE, "pd", "PtoD"));
+		// 
+		try {
+			ti.update(new Command(CommandValue.CLAIM, "do", "DtoO"));
+			fail();
+		} catch (UnsupportedOperationException e) {
+			assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
+			assertEquals(TaskItem.Type.KNOWLEDGE_ACQUISITION, ti.getType());   //No change ever
+			assertEquals(VALID_CREATOR, ti.getCreator());    //No change ever
+			assertEquals("bo", ti.getOwner());						// owner name
+			assertEquals(TaskItem.DONE_NAME, ti.getStateName());  // State
+			assertEquals(4, ti.getNotes().size());			   // Number of notes
+			assertEquals("bo", ti.getNotes().get(3).getNoteAuthor());       //The last note author
+			assertEquals("PtoD", ti.getNotes().get(3).getNoteText());   //The last note text
+		}
+		
+		
+		
+		// Done to Rejected (error)
+		ti = new TaskItem(VALID_TITLE, TaskItem.Type.KNOWLEDGE_ACQUISITION, VALID_CREATOR, VALID_NOTE);
+		ti.update(new Command(CommandValue.CLAIM, "bo", "BtoO"));
+		ti.update(new Command(CommandValue.PROCESS, "op", "OtoP"));
+		ti.update(new Command(CommandValue.COMPLETE, "pd", "PtoD"));
+		// 
+		try {
+			ti.update(new Command(CommandValue.REJECT, "do", "DtoO"));
+			fail();
+		} catch (UnsupportedOperationException e) {
+			assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
+			assertEquals(TaskItem.Type.KNOWLEDGE_ACQUISITION, ti.getType());   //No change ever
+			assertEquals(VALID_CREATOR, ti.getCreator());    //No change ever
+			assertEquals("bo", ti.getOwner());						// owner name
+			assertEquals(TaskItem.DONE_NAME, ti.getStateName());  // State
+			assertEquals(4, ti.getNotes().size());			   // Number of notes
+			assertEquals("bo", ti.getNotes().get(3).getNoteAuthor());       //The last note author
+			assertEquals("PtoD", ti.getNotes().get(3).getNoteText());   //The last note text
+		}
+		
+		
+		// Done to Verifying (error)
+		ti = new TaskItem(VALID_TITLE, TaskItem.Type.KNOWLEDGE_ACQUISITION, VALID_CREATOR, VALID_NOTE);
+		ti.update(new Command(CommandValue.CLAIM, "bo", "BtoO"));
+		ti.update(new Command(CommandValue.PROCESS, "op", "OtoP"));
+		ti.update(new Command(CommandValue.COMPLETE, "pd", "PtoD"));
+		// 
+		try {
+			ti.update(new Command(CommandValue.VERIFY, "do", "DtoO"));
+			fail();
+		} catch (UnsupportedOperationException e) {
+			assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
+			assertEquals(TaskItem.Type.KNOWLEDGE_ACQUISITION, ti.getType());   //No change ever
+			assertEquals(VALID_CREATOR, ti.getCreator());    //No change ever
+			assertEquals("bo", ti.getOwner());						// owner name
+			assertEquals(TaskItem.DONE_NAME, ti.getStateName());  // State
+			assertEquals(4, ti.getNotes().size());			   // Number of notes
+			assertEquals("bo", ti.getNotes().get(3).getNoteAuthor());       //The last note author
+			assertEquals("PtoD", ti.getNotes().get(3).getNoteText());   //The last note text
+		}
+		
+		
+		
 	}
 	
 	
@@ -587,10 +1024,11 @@ public class TaskItemTest {
 	 */
 	@Test
 	public void testRejectedState (){
-		// create a TaskItem of REJECTED
+		
+		// RejectA to Backlog
 		TaskItem ti = new TaskItem(VALID_TITLE, TaskItem.Type.KNOWLEDGE_ACQUISITION, VALID_CREATOR, VALID_NOTE);
 		ti.update(new Command(CommandValue.REJECT, "br", "BtoR"));
-		// RejectA to Backlog
+		// 
 		ti.update(new Command(CommandValue.BACKLOG, "rb", "RtoB"));
 		assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
 		assertEquals(TaskItem.Type.KNOWLEDGE_ACQUISITION, ti.getType());   //No change ever
@@ -601,6 +1039,75 @@ public class TaskItemTest {
 		assertEquals("rb", ti.getNotes().get(2).getNoteAuthor());       //The last note author
 		assertEquals("RtoB", ti.getNotes().get(2).getNoteText());   //The last note text
 	
+		
+		// Reject to owned (error)
+		ti = new TaskItem(VALID_TITLE, TaskItem.Type.KNOWLEDGE_ACQUISITION, VALID_CREATOR, VALID_NOTE);
+		ti.update(new Command(CommandValue.REJECT, "br", "BtoR"));
+		// 
+		try {
+			ti.update(new Command(CommandValue.CLAIM, "rb", "RtoB"));
+		} catch (UnsupportedOperationException e) {
+			assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
+			assertEquals(TaskItem.Type.KNOWLEDGE_ACQUISITION, ti.getType());   //No change ever
+			assertEquals(VALID_CREATOR, ti.getCreator());    //No change ever
+			assertNull(ti.getOwner());						// owner name
+			assertEquals(TaskItem.REJECTED_NAME, ti.getStateName());  // State
+			assertEquals(2, ti.getNotes().size());			   // Number of notes
+			assertEquals("br", ti.getNotes().get(1).getNoteAuthor());       //The last note author
+			assertEquals("BtoR", ti.getNotes().get(1).getNoteText());   //The last note text
+		}
+		
+		// Rejected to Processing (error)
+		ti = new TaskItem(VALID_TITLE, TaskItem.Type.KNOWLEDGE_ACQUISITION, VALID_CREATOR, VALID_NOTE);
+		ti.update(new Command(CommandValue.REJECT, "br", "BtoR"));
+		// 
+		try {
+			ti.update(new Command(CommandValue.PROCESS, "rp", "RtoP"));
+		} catch (UnsupportedOperationException e) {
+			assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
+			assertEquals(TaskItem.Type.KNOWLEDGE_ACQUISITION, ti.getType());   //No change ever
+			assertEquals(VALID_CREATOR, ti.getCreator());    //No change ever
+			assertNull(ti.getOwner());						// owner name
+			assertEquals(TaskItem.REJECTED_NAME, ti.getStateName());  // State
+			assertEquals(2, ti.getNotes().size());			   // Number of notes
+			assertEquals("br", ti.getNotes().get(1).getNoteAuthor());       //The last note author
+			assertEquals("BtoR", ti.getNotes().get(1).getNoteText());   //The last note text
+		}
+		
+		// Rejected to Verifying(error)
+		ti = new TaskItem(VALID_TITLE, TaskItem.Type.KNOWLEDGE_ACQUISITION, VALID_CREATOR, VALID_NOTE);
+		ti.update(new Command(CommandValue.REJECT, "br", "BtoR"));
+		// 
+		try {
+			ti.update(new Command(CommandValue.VERIFY, "rv", "RtoV"));
+		} catch (UnsupportedOperationException e) {
+			assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
+			assertEquals(TaskItem.Type.KNOWLEDGE_ACQUISITION, ti.getType());   //No change ever
+			assertEquals(VALID_CREATOR, ti.getCreator());    //No change ever
+			assertNull(ti.getOwner());						// owner name
+			assertEquals(TaskItem.REJECTED_NAME, ti.getStateName());  // State
+			assertEquals(2, ti.getNotes().size());			   // Number of notes
+			assertEquals("br", ti.getNotes().get(1).getNoteAuthor());       //The last note author
+			assertEquals("BtoR", ti.getNotes().get(1).getNoteText());   //The last note text
+		}
+		
+		
+		// Rejected to Done (error)
+		ti = new TaskItem(VALID_TITLE, TaskItem.Type.KNOWLEDGE_ACQUISITION, VALID_CREATOR, VALID_NOTE);
+		ti.update(new Command(CommandValue.REJECT, "br", "BtoR"));
+		// 
+		try {
+			ti.update(new Command(CommandValue.CLAIM, "rd", "RtoD"));
+		} catch (UnsupportedOperationException e) {
+			assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
+			assertEquals(TaskItem.Type.KNOWLEDGE_ACQUISITION, ti.getType());   //No change ever
+			assertEquals(VALID_CREATOR, ti.getCreator());    //No change ever
+			assertNull(ti.getOwner());						// owner name
+			assertEquals(TaskItem.REJECTED_NAME, ti.getStateName());  // State
+			assertEquals(2, ti.getNotes().size());			   // Number of notes
+			assertEquals("br", ti.getNotes().get(1).getNoteAuthor());       //The last note author
+			assertEquals("BtoR", ti.getNotes().get(1).getNoteText());   //The last note text
+		}
 		
 		
 
