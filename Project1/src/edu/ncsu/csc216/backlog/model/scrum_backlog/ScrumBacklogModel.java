@@ -119,8 +119,23 @@ public class ScrumBacklogModel {
 	 * 			Each row has 3 columns, which stores ID, State, Title in this order.
 	 */
 	public Object[][] getTaskItemListByOwnerAsArray(String owner){
-		List<TaskItem> taskItems = this.taskItemList.getTaskItems();
+		List<TaskItem> taskItems = this.taskItemList.getTaskItemsByOwner(owner);
 		
+		int taskCount = taskItems.size();
+		Object[][] taskItemArray = new Object[taskCount][3];
+		
+		for (int i = 0 ; i < taskCount ; i++) {
+			// task item id 
+			taskItemArray[i][0] = taskItems.get(i).getTaskItemId();
+			// task item state
+			taskItemArray[i][1] = taskItems.get(i).getStateName();
+			// task item title
+			taskItemArray[i][2] = taskItems.get(i).getTitle();
+		}
+		
+		return taskItemArray;
+		
+		/**
 		int taskCount = 0;
 		for (int i = 0 ; i < taskItems.size() ; i++) {
 			if (taskItems.get(i).getOwner().equals(owner)){
@@ -142,6 +157,7 @@ public class ScrumBacklogModel {
 			}
 		}
 		return taskItemArray;
+		*/
 	}
 	
 	/**
@@ -151,6 +167,26 @@ public class ScrumBacklogModel {
 	 * 			Each row has 3 columns, which stores ID, State, Title in this order.
 	 */
 	public Object[][] getTaskItemListByCreatorAsArray(String creator){
+		
+List<TaskItem> taskItems = this.taskItemList.getTaskItemsByOwner(creator);
+		
+	
+		int taskCount = taskItems.size();
+		Object[][] taskItemArray = new Object[taskCount][3];
+		
+		for (int i = 0 ; i < taskCount ; i++) {
+			// task item id 
+			taskItemArray[i][0] = taskItems.get(i).getTaskItemId();
+			// task item state
+			taskItemArray[i][1] = taskItems.get(i).getStateName();
+			// task item title
+			taskItemArray[i][2] = taskItems.get(i).getTitle();
+		}
+		
+		return taskItemArray;
+		
+		
+		/**
 		List<TaskItem> taskItems = this.taskItemList.getTaskItemsByCreator(creator);
 		
 		int taskCount = 0;
@@ -173,6 +209,7 @@ public class ScrumBacklogModel {
 		}
 		
 		return taskItemArray;
+		*/
 		
 
 	}
