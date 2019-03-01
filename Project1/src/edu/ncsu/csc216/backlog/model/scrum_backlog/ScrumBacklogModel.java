@@ -168,7 +168,7 @@ public class ScrumBacklogModel {
 	 */
 	public Object[][] getTaskItemListByCreatorAsArray(String creator){
 		
-List<TaskItem> taskItems = this.taskItemList.getTaskItemsByOwner(creator);
+		List<TaskItem> taskItems = this.taskItemList.getTaskItemsByCreator(creator);
 		
 	
 		int taskCount = taskItems.size();
