@@ -1,11 +1,6 @@
 package edu.ncsu.csc216.backlog.model.scrum_backlog;
 
 import static org.junit.Assert.*;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Scanner;
-
 import org.junit.Test;
 
 
