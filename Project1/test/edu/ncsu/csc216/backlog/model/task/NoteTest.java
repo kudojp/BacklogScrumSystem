@@ -1,8 +1,6 @@
 package edu.ncsu.csc216.backlog.model.task;
 
 import static org.junit.Assert.*;
-
-import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -14,12 +12,8 @@ public class NoteTest {
 	
 	/** Valid author name for a note */
 	private static final String VALID_AUTHOR = "John";
-	/** Valid author name 2 */
-	private static final String VALID_AUTHOR2 = "Paul";
 	/** Valid text for a note */
 	private static final String VALID_TEXT = "So hard!";
-	/** Valid text 2 */
-	private static final String VALID_TEXT2 = "So easy!";
 	
 	
 

@@ -1,6 +1,5 @@
 package edu.ncsu.csc216.backlog.model.scrum_backlog;
 
-import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 import edu.ncsu.csc216.backlog.model.command.Command;
@@ -30,11 +29,9 @@ public class TaskItemList {
 	}
 	
 	/**
-	 * Sets List to empty list.
-	 */
 	private void emptyList() {
 		this.tasks = new ArrayList<TaskItem>();
-	}
+	}*/
 	
 	/**
 	 * Adds new Task Item to this TaskItemList

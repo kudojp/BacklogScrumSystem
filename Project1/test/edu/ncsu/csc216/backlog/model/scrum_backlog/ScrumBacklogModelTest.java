@@ -14,7 +14,7 @@ import edu.ncsu.csc216.backlog.model.task.TaskItem;
  * @author Daiki Kudo
  *
  */
-class ScrumBacklogModelTest {
+public class ScrumBacklogModelTest {
 
 
 
