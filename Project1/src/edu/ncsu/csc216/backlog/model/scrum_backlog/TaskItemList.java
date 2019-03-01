@@ -54,6 +54,10 @@ public class TaskItemList {
 	 * @param taskList : List of Tasks
 	 */
 	public void addXMLTasks(List<Task> taskList) { 
+		if (taskList == null) {
+			throw new IllegalArgumentException();
+		}
+		
 		int maxId = 0;
 		for (Task eachTask : taskList) {
 			maxId = Math.max(maxId, eachTask.getId());
