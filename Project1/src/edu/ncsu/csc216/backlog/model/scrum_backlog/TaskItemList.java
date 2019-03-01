@@ -78,6 +78,10 @@ public class TaskItemList {
 	 */
 	public List<TaskItem> getTaskItemsByOwner(String owner){
 		
+		if (owner == null) {
+			throw new IllegalArgumentException();
+		}
+		
 		List<TaskItem> filteredTasks = new ArrayList<TaskItem>();
 
 		for (TaskItem eachTaskItem : this.tasks) {
@@ -96,9 +100,11 @@ public class TaskItemList {
 	 */
 	public List<TaskItem> getTaskItemsByCreator(String creator){
 		
-		
+		if (creator == null) {
+			throw new IllegalArgumentException();
+		}
 		List<TaskItem> filteredTasks = new ArrayList<TaskItem>();
-
+		
 		for (TaskItem eachTaskItem : this.tasks) {
 			if (eachTaskItem.getCreator() != null && eachTaskItem.getCreator().equals(creator)) {
 				filteredTasks.add(eachTaskItem);
