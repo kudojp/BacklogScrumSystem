@@ -2,6 +2,10 @@ package edu.ncsu.csc216.backlog.model.scrum_backlog;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
+
 import org.junit.Test;
 
 
@@ -34,8 +38,17 @@ public class ScrumBacklogModelTest {
 	 */
 	@Test
 	public void testSaveTasksToFile() {
+		ScrumBacklogModel sb = ScrumBacklogModel.getInstance();
+		sb.createNewTaskItemList();
+		sb.loadTasksFromFile("test_files/tasks_valid.xml");
+		sb.saveTasksToFile("test_files/tasks_valid_written.xml");
 		
+		sb.createNewTaskItemList();
+		sb.loadTasksFromFile("test_files/tasks_valid_written.xml");
+		assertEquals(6, sb.getTaskItemListAsArray().length);
 	}
+	
+	
 
 	/**
 	 * Test method for {@link edu.ncsu.csc216.backlog.model.scrum_backlog.ScrumBacklogModel#loadTasksFromFile(java.lang.String)}.

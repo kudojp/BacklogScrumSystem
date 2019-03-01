@@ -81,10 +81,8 @@ public class TaskItemList {
 		List<TaskItem> filteredTasks = new ArrayList<TaskItem>();
 
 		for (TaskItem eachTaskItem : this.tasks) {
-			if (eachTaskItem.getOwner() != null) {
-				if (eachTaskItem.getOwner().equals(owner)) {
-					filteredTasks.add(eachTaskItem);
-				}
+			if (eachTaskItem.getOwner() != null && eachTaskItem.getOwner().equals(owner)) {
+				filteredTasks.add(eachTaskItem);
 			}
 		}
 		return filteredTasks;
