@@ -20,7 +20,7 @@ import edu.ncsu.csc216.task.xml.TaskWriter;
 public class ScrumBacklogModel {
 	 
 	/** the only instance of ScrumBacklogModel */
-	private static ScrumBacklogModel instance;
+	private static ScrumBacklogModel instance = new ScrumBacklogModel();
 	/** taskItem List of ScrumBacklogModel*/
 	private TaskItemList taskItemList;
 
@@ -135,29 +135,6 @@ public class ScrumBacklogModel {
 		
 		return taskItemArray;
 		
-		/**
-		int taskCount = 0;
-		for (int i = 0 ; i < taskItems.size() ; i++) {
-			if (taskItems.get(i).getOwner().equals(owner)){
-				taskCount++;
-			}
-		}
-			
-		Object[][] taskItemArray = new Object[taskCount][3];
-		int arrayIndex = 0;
-		for (int i = 0 ; i < taskItems.size() ; i++) {
-			if (taskItems.get(i).getOwner().equals(owner)){
-				// task item id 
-				taskItemArray[arrayIndex][0] = taskItems.get(i).getTaskItemId();
-				// task item state
-				taskItemArray[arrayIndex][1] = taskItems.get(i).getStateName();
-				// task item title
-				taskItemArray[arrayIndex][2] = taskItems.get(i).getTitle();
-				arrayIndex++;
-			}
-		}
-		return taskItemArray;
-		*/
 	}
 	
 	/**
@@ -184,33 +161,6 @@ public class ScrumBacklogModel {
 		}
 		
 		return taskItemArray;
-		
-		
-		/**
-		List<TaskItem> taskItems = this.taskItemList.getTaskItemsByCreator(creator);
-		
-		int taskCount = 0;
-		for (TaskItem t : taskItems) {
-			if (t.getCreator().equals(creator)) {
-				taskCount++;
-			}
-		}
-		
-		Object[][] taskItemArray = new Object[taskCount][3];
-		int count = 0;
-		
-		for (TaskItem t : taskItems) {
-			if (t.getCreator().equals(creator)) {
-				taskItemArray[count][0] = t.getTaskItemId();
-				taskItemArray[count][1] = t.getStateName();
-				taskItemArray[count][2] = t.getTitle();
-				count++;
-			}
-		}
-		
-		return taskItemArray;
-		*/
-		
 
 	}
 	
