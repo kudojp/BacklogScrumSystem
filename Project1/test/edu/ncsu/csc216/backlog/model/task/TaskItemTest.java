@@ -576,7 +576,7 @@ public class TaskItemTest {
 	
 	
 	/**
-	 * Tests path from Processing state, that is, this tests inner class ProcessingState.
+	 * Tests path from Processing state of BUG type task, that is, this tests inner class ProcessingState.
 	 */
 	@Test
 	public void testProcessingStateBUG (){
@@ -695,7 +695,11 @@ public class TaskItemTest {
 		
 
 	}
-		
+	
+	
+	/**
+	 * Tests path from Processing state of KNOWLEDGE type task, that is, this tests inner class ProcessingState.
+	 */
 	@Test
 	public void testProcessingStateKnowledge(){
 		// ProcessingA to Processing
