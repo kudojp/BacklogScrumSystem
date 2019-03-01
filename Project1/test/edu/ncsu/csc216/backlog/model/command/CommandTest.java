@@ -19,13 +19,6 @@ public class CommandTest {
 	private static final String VALID_TEXT = "So hard!";
 	
 
-	/**
-	 * Sets up for testing.
-	 * @throws Exception
-	 */
-	@Before
-	public void setUp() throws Exception {
-	}
 
 	/**
 	 * Tests constructor.
