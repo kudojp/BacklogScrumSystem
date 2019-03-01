@@ -1,36 +1,28 @@
-/**
- * 
- */
 package edu.ncsu.csc216.backlog.model.scrum_backlog;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+
 
 import edu.ncsu.csc216.backlog.model.command.Command;
 import edu.ncsu.csc216.backlog.model.command.Command.CommandValue;
 import edu.ncsu.csc216.backlog.model.task.TaskItem;
-import edu.ncsu.csc216.backlog.model.task.TaskItem.Type;
 
 /**
+ * Test class for ScrumBacklogModel class
  * @author Daiki Kudo
  *
  */
 class ScrumBacklogModelTest {
 
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@BeforeEach
-	void setUp() throws Exception {
-	}
+
 
 	/**
 	 * Test method for {@link edu.ncsu.csc216.backlog.model.scrum_backlog.ScrumBacklogModel#getInstance()}.
 	 */
 	@Test
-	void testGetInstance() {
+	public void testGetInstance() {
 		ScrumBacklogModel sb = ScrumBacklogModel.getInstance();
 		sb.createNewTaskItemList();
 		sb.addTaskItemToList("title", TaskItem.Type.BUG, "first creator", "first note text");
@@ -41,7 +33,7 @@ class ScrumBacklogModelTest {
 	 * Test method for {@link edu.ncsu.csc216.backlog.model.scrum_backlog.ScrumBacklogModel#saveTasksToFile(java.lang.String)}.
 	 */
 	@Test
-	void testSaveTasksToFile() {
+	public void testSaveTasksToFile() {
 		
 	}
 
@@ -49,7 +41,7 @@ class ScrumBacklogModelTest {
 	 * Test method for {@link edu.ncsu.csc216.backlog.model.scrum_backlog.ScrumBacklogModel#loadTasksFromFile(java.lang.String)}.
 	 */
 	@Test
-	void testLoadTasksFromFile() {
+	public void testLoadTasksFromFile() {
 		ScrumBacklogModel sb = ScrumBacklogModel.getInstance();
 		sb.createNewTaskItemList();
 		sb.loadTasksFromFile("test_files/tasks_valid.xml");
@@ -62,7 +54,7 @@ class ScrumBacklogModelTest {
 	 * Test method for {@link edu.ncsu.csc216.backlog.model.scrum_backlog.ScrumBacklogModel#createNewTaskItemList()}.
 	 */
 	@Test
-	void testCreateNewTaskItemList() {
+	public void testCreateNewTaskItemList() {
 		ScrumBacklogModel sb = ScrumBacklogModel.getInstance();
 		sb.createNewTaskItemList();
 		sb.addTaskItemToList("a", TaskItem.Type.BUG, "first creator", "first note text");
@@ -74,7 +66,7 @@ class ScrumBacklogModelTest {
 	 * Test method for {@link edu.ncsu.csc216.backlog.model.scrum_backlog.ScrumBacklogModel#getTaskItemListAsArray()}.
 	 */
 	@Test
-	void testGetTaskItemListAsArray() {
+	public void testGetTaskItemListAsArray() {
 		ScrumBacklogModel sb = ScrumBacklogModel.getInstance();
 		sb.createNewTaskItemList();
 		sb.addTaskItemToList("title1", TaskItem.Type.BUG, "first creator", "first text");
@@ -100,7 +92,7 @@ class ScrumBacklogModelTest {
 	 * Test method for {@link edu.ncsu.csc216.backlog.model.scrum_backlog.ScrumBacklogModel#getTaskItemListByOwnerAsArray(java.lang.String)}.
 	 */
 	@Test
-	void testGetTaskItemListByOwnerAsArray() {
+	public void testGetTaskItemListByOwnerAsArray() {
 		ScrumBacklogModel sb = ScrumBacklogModel.getInstance();
 		sb.createNewTaskItemList();
 		sb.addTaskItemToList("title1", TaskItem.Type.BUG, "first creator", "first text");
@@ -133,7 +125,7 @@ class ScrumBacklogModelTest {
 	 * Test method for {@link edu.ncsu.csc216.backlog.model.scrum_backlog.ScrumBacklogModel#getTaskItemListByCreatorAsArray(java.lang.String)}.
 	 */
 	@Test
-	void testGetTaskItemListByCreatorAsArray() {
+	public void testGetTaskItemListByCreatorAsArray() {
 		ScrumBacklogModel sb = ScrumBacklogModel.getInstance();
 		sb.createNewTaskItemList();
 		sb.addTaskItemToList("title1", TaskItem.Type.BUG, "creator1", "first text");
@@ -165,7 +157,7 @@ class ScrumBacklogModelTest {
 	 * Test method for {@link edu.ncsu.csc216.backlog.model.scrum_backlog.ScrumBacklogModel#getTaskItemById(int)}.
 	 */
 	@Test
-	void testGetTaskItemById() {
+	public void testGetTaskItemById() {
 		ScrumBacklogModel sb = ScrumBacklogModel.getInstance();
 		sb.createNewTaskItemList();
 		sb.addTaskItemToList("title1", TaskItem.Type.BUG, "creator1", "first text");
@@ -191,7 +183,7 @@ class ScrumBacklogModelTest {
 	 * Test method for {@link edu.ncsu.csc216.backlog.model.scrum_backlog.ScrumBacklogModel#executeCommand(int, edu.ncsu.csc216.backlog.model.command.Command)}.
 	 */
 	@Test
-	void testExecuteCommand() {
+	public void testExecuteCommand() {
 		ScrumBacklogModel sb = ScrumBacklogModel.getInstance();
 		sb.createNewTaskItemList();
 		sb.addTaskItemToList("title1", TaskItem.Type.BUG, "creator1", "first text");
@@ -209,7 +201,7 @@ class ScrumBacklogModelTest {
 	 * Test method for {@link edu.ncsu.csc216.backlog.model.scrum_backlog.ScrumBacklogModel#deleteTaskItemById(int)}.
 	 */
 	@Test
-	void testDeleteTaskItemById() {
+	public void testDeleteTaskItemById() {
 		ScrumBacklogModel sb = ScrumBacklogModel.getInstance();
 		sb.createNewTaskItemList();
 		sb.addTaskItemToList("title1", TaskItem.Type.BUG, "creator1", "first text");
@@ -234,7 +226,7 @@ class ScrumBacklogModelTest {
 	 * Test method for {@link edu.ncsu.csc216.backlog.model.scrum_backlog.ScrumBacklogModel#addTaskItemToList(java.lang.String, edu.ncsu.csc216.backlog.model.task.TaskItem.Type, java.lang.String, java.lang.String)}.
 	 */
 	@Test
-	void testAddTaskItemToList() {
+	public void testAddTaskItemToList() {
 		ScrumBacklogModel sb = ScrumBacklogModel.getInstance();
 		sb.createNewTaskItemList();
 		sb.addTaskItemToList("title1", TaskItem.Type.BUG, "creator1", "first text");
