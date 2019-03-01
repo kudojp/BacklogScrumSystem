@@ -25,11 +25,11 @@ public class TaskItemList {
 	 */
 	public TaskItemList() {
 		this.emptyList();
-		TaskItem.setCounter(INITIAL_COUNTER_VALUE);
 	}
 	
 	private void emptyList() {
 		this.tasks = new ArrayList<TaskItem>();
+		TaskItem.setCounter(INITIAL_COUNTER_VALUE);
 	}
 	
 	/**
