@@ -30,7 +30,7 @@ public class TaskItemList {
 	/**
 	 * Resets tasks to empty arrayList.
 	 */
-	public void emptyList() {
+	private void emptyList() {
 		this.tasks = new ArrayList<TaskItem>();
 		TaskItem.setCounter(INITIAL_COUNTER_VALUE);
 	}
