@@ -538,11 +538,9 @@ public class TaskItem {
 				notes.add(new Note(owner, c.getNoteText()));
 				state = processingState;
 				isVerified = false;
-				notes.add(new Note(owner, c.getNoteText()));
 				state = processingState;
 				break;
 			case BACKLOG:
-				notes.add(new Note(owner, c.getNoteText()));
 				notes.add(new Note(owner, c.getNoteText()));
 				owner = null;
 				isVerified = false;
@@ -575,9 +573,9 @@ public class TaskItem {
 			//RejectedA(Rejected to Backlog)
 			
 			switch(c.getCommand()) {
-			case REJECT:
+			case BACKLOG:
 				notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
-				state = rejectedState;
+				state = backlogState;
 				break;
 			default:
 				throw new UnsupportedOperationException();

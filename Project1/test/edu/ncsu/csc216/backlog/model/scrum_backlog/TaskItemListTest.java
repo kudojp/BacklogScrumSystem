@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.junit.Test;
 
+import edu.ncsu.csc216.backlog.model.command.Command;
+import edu.ncsu.csc216.backlog.model.command.Command.CommandValue;
 import edu.ncsu.csc216.backlog.model.task.TaskItem;
 import edu.ncsu.csc216.task.xml.TaskIOException;
 import edu.ncsu.csc216.task.xml.TaskReader;
@@ -74,7 +76,7 @@ public class TaskItemListTest extends TaskItemList {
 		TaskItemList til = new TaskItemList();
 		til.addXMLTasks(tr.getTasks());
 		
-		assertEquals(20, til.getTaskItems().size());
+		assertEquals(6, til.getTaskItems().size());
 		
 	}
 
@@ -183,7 +185,19 @@ public class TaskItemListTest extends TaskItemList {
 	 */
 	@Test
 	public void testExecuteCommand() {
-		fail("Not yet implemented");
+		TaskReader tr = null;
+		try {
+			tr = new TaskReader(VALID_FILE);
+		} catch (TaskIOException e) {
+			fail();
+		}
+		TaskItemList til = new TaskItemList();
+		til.addXMLTasks(tr.getTasks());
+		
+		til.executeCommand(1, new Command(CommandValue.CLAIM, "owner", "text"));
+		assertEquals("Express Carts", til.getTaskItemById(1).getTitle());
+		assertEquals(TaskItem.OWNED_NAME, til.getTaskItemById(1).getStateName());
+		
 	}
 	
 	/**

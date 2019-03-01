@@ -18,7 +18,7 @@ import edu.ncsu.csc216.task.xml.TaskWriter;
  * @author Daiki Kudo
  */
 public class ScrumBacklogModel {
-	
+	 
 	/** the only instance of ScrumBacklogModel */
 	private static ScrumBacklogModel instance;
 	/** taskItem List of ScrumBacklogModel*/
@@ -120,16 +120,26 @@ public class ScrumBacklogModel {
 	 */
 	public Object[][] getTaskItemListByOwnerAsArray(String owner){
 		List<TaskItem> taskItems = this.taskItemList.getTaskItems();
-		int taskCount = taskItems.size();
-		Object[][] taskItemArray = new Object[taskCount][3];
 		
-		for (int i = 0 ; i < taskCount ; i++) {
-			// task item id 
-			taskItemArray[i][0] = taskItems.get(i).getTaskItemId();
-			// task item state
-			taskItemArray[i][1] = taskItems.get(i).getStateName();
-			// task item title
-			taskItemArray[i][2] = taskItems.get(i).getTitle();
+		int taskCount = 0;
+		for (int i = 0 ; i < taskItems.size() ; i++) {
+			if (taskItems.get(i).getOwner().equals(owner)){
+				taskCount++;
+			}
+		}
+			
+		Object[][] taskItemArray = new Object[taskCount][3];
+		int arrayIndex = 0;
+		for (int i = 0 ; i < taskItems.size() ; i++) {
+			if (taskItems.get(i).getOwner().equals(owner)){
+				// task item id 
+				taskItemArray[arrayIndex][0] = taskItems.get(i).getTaskItemId();
+				// task item state
+				taskItemArray[arrayIndex][1] = taskItems.get(i).getStateName();
+				// task item title
+				taskItemArray[arrayIndex][2] = taskItems.get(i).getTitle();
+				arrayIndex++;
+			}
 		}
 		return taskItemArray;
 	}
@@ -142,19 +152,29 @@ public class ScrumBacklogModel {
 	 */
 	public Object[][] getTaskItemListByCreatorAsArray(String creator){
 		List<TaskItem> taskItems = this.taskItemList.getTaskItemsByCreator(creator);
-		int taskCount = taskItems.size();
-		Object[][] taskItemArray = new Object[taskCount][3];
 		
-		for (int i = 0 ; i < taskCount ; i++) {
-			// task item id 
-			taskItemArray[i][0] = taskItems.get(i).getTaskItemId();
-			// task item state
-			taskItemArray[i][0] = taskItems.get(i).getStateName();
-			// task item title
-			taskItemArray[i][0] = taskItems.get(i).getTitle();
+		int taskCount = 0;
+		for (TaskItem t : taskItems) {
+			if (t.getCreator().equals(creator)) {
+				taskCount++;
+			}
 		}
+		
+		Object[][] taskItemArray = new Object[taskCount][3];
+		int count = 0;
+		
+		for (TaskItem t : taskItems) {
+			if (t.getCreator().equals(creator)) {
+				taskItemArray[count][0] = t.getTaskItemId();
+				taskItemArray[count][1] = t.getStateName();
+				taskItemArray[count][2] = t.getTitle();
+				count++;
+			}
+		}
+		
 		return taskItemArray;
 		
+
 	}
 	
 	/**

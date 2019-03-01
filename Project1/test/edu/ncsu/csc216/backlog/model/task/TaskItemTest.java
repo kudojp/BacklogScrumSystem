@@ -1,5 +1,6 @@
 package edu.ncsu.csc216.backlog.model.task;
 
+
 import static org.junit.Assert.*;
 
 import org.junit.Before;
@@ -33,7 +34,7 @@ public class TaskItemTest {
 	private static final int TASK0_ID = 1;
 	/** state of task at index 0 in VALID_FILE */
 	private static final String TASK0_STATE = TaskItem.BACKLOG_NAME;
-	/** typeof task at index 0 in VALID_FILE */
+	/** type of task at index 0 in VALID_FILE */
 	private static final String TASK0_TYPE = TaskItem.T_FEATURE;
 	/** creator of task at index 0 in VALID_FILE */
 	private static final String TASK0_CREATOR = "jep";
@@ -52,16 +53,15 @@ public class TaskItemTest {
 	 * @throws java.lang.Exception
 	 */
 	@Before
-	void setUp() throws Exception {
+	public void setUp() throws Exception {
 		TaskItem.setCounter(1);
-		
 	}
 
 	/**
 	 * Test method for {@link edu.ncsu.csc216.backlog.model.task.TaskItem#TaskItem(java.lang.String, edu.ncsu.csc216.backlog.model.task.TaskItem.Type, java.lang.String, java.lang.String)}.
 	 */
 	@Test
-	void testTaskItemStringTypeStringString() {
+	public void testTaskItemStringTypeStringString() {
 		// null title
 		TaskItem ti = null;
 		try {
@@ -142,7 +142,7 @@ public class TaskItemTest {
 	 * Test method for {@link edu.ncsu.csc216.backlog.model.task.TaskItem#TaskItem(edu.ncsu.csc216.task.xml.Task)}.
 	 */
 	@Test
-	void testTaskItemTask() {
+	public void testTaskItemTask() {
 		
 		TaskReader tr = null;
 		try {
@@ -170,7 +170,7 @@ public class TaskItemTest {
 	 * Test method for {@link edu.ncsu.csc216.backlog.model.task.TaskItem#incrementCounter()}.
 	 */
 	@Test
-	void testIncrementCounter() {
+	public void testIncrementCounter() {
 		TaskItem.incrementCounter();
 		TaskItem ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
 		assertEquals(2, ti.getTaskItemId());	
@@ -180,7 +180,7 @@ public class TaskItemTest {
 	 * Test method for {@link edu.ncsu.csc216.backlog.model.task.TaskItem#getTaskItemId()}.
 	 */
 	@Test
-	void testGetTaskItemId() {
+	public void testGetTaskItemId() {
 		TaskItem ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
 		TaskItem ti2 = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
 		
@@ -192,7 +192,7 @@ public class TaskItemTest {
 	 * Test method for {@link edu.ncsu.csc216.backlog.model.task.TaskItem#getStateName()}.
 	 */
 	@Test
-	void testGetStateName() {
+	public void testGetStateName() {
 		TaskItem ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
 		assertEquals(TaskItem.BACKLOG_NAME, ti.getStateName());
 	}
@@ -201,7 +201,7 @@ public class TaskItemTest {
 	 * Test method for {@link edu.ncsu.csc216.backlog.model.task.TaskItem#getType()}.
 	 */
 	@Test
-	void testGetType() {
+	public void testGetType() {
 		TaskItem ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
 		assertEquals(TaskItem.Type.BUG, ti.getType());
 	}
@@ -210,7 +210,7 @@ public class TaskItemTest {
 	 * Test method for {@link edu.ncsu.csc216.backlog.model.task.TaskItem#getTypeString()}.
 	 */
 	@Test
-	void testGetTypeString() {
+	public void testGetTypeString() {
 		TaskItem ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
 		TaskItem ti2 = new TaskItem(VALID_TITLE, TaskItem.Type.FEATURE, VALID_CREATOR, VALID_NOTE);
 		TaskItem ti3 = new TaskItem(VALID_TITLE, TaskItem.Type.KNOWLEDGE_ACQUISITION, VALID_CREATOR, VALID_NOTE);
@@ -226,7 +226,7 @@ public class TaskItemTest {
 	 * Test method for {@link edu.ncsu.csc216.backlog.model.task.TaskItem#getTypeFullString()}.
 	 */
 	@Test
-	void testGetTypeFullString() {
+	public void testGetTypeFullString() {
 		TaskItem ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
 		TaskItem ti2 = new TaskItem(VALID_TITLE, TaskItem.Type.FEATURE, VALID_CREATOR, VALID_NOTE);
 		TaskItem ti3 = new TaskItem(VALID_TITLE, TaskItem.Type.KNOWLEDGE_ACQUISITION, VALID_CREATOR, VALID_NOTE);
@@ -242,7 +242,7 @@ public class TaskItemTest {
 	 * Test method for {@link edu.ncsu.csc216.backlog.model.task.TaskItem#getTitle()}.
 	 */
 	@Test
-	void testGetTitle() {
+	public void testGetTitle() {
 		TaskItem ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
 		assertEquals(VALID_TITLE, ti.getTitle());
 	}
@@ -251,7 +251,7 @@ public class TaskItemTest {
 	 * Test method for {@link edu.ncsu.csc216.backlog.model.task.TaskItem#getCreator()}.
 	 */
 	@Test
-	void testGetCreator() {
+	public void testGetCreator() {
 		TaskItem ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
 		assertEquals(VALID_CREATOR, ti.getCreator());
 	}
@@ -260,7 +260,7 @@ public class TaskItemTest {
 	 * Test method for {@link edu.ncsu.csc216.backlog.model.task.TaskItem#getNotes()}.
 	 */
 	@Test
-	void testGetNotes() {
+	public void testGetNotes() {
 		TaskItem ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
 		assertEquals(1, ti.getNotes().size());
 		assertEquals(VALID_CREATOR, ti.getNotes().get(0).getNoteAuthor());
@@ -272,7 +272,7 @@ public class TaskItemTest {
 	 * Test method for {@link edu.ncsu.csc216.backlog.model.task.TaskItem#getOwner()}.
 	 */
 	@Test
-	void testGetOwner() {
+	public void testGetOwner() {
 		TaskItem ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
 		assertNull(ti.getOwner());
 		
@@ -296,7 +296,7 @@ public class TaskItemTest {
 	 * Testing at each state of TaskItem is done in testFSM() 
 	 */
 	@Test
-	void testUpdate() {
+	public void testUpdate() {
 		TaskItem ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
 		try {
 			ti.update(new Command(CommandValue.BACKLOG, "TestAuthor", "TestText"));
@@ -310,7 +310,7 @@ public class TaskItemTest {
 	 * Test method for {@link edu.ncsu.csc216.backlog.model.task.TaskItem#getXMLTask()}.
 	 */
 	@Test
-	void testGetXMLTask() {
+	public void testGetXMLTask() {
 		TaskReader tr = null;
 		try {
 			tr = new TaskReader(VALID_FILE);
@@ -341,7 +341,7 @@ public class TaskItemTest {
 	 * Test method for {@link edu.ncsu.csc216.backlog.model.task.TaskItem#setCounter(int)}.
 	 */
 	@Test
-	void testSetCounter() {
+	public void testSetCounter() {
 		TaskItem.setCounter(COUNTER_VALUE);
 		TaskItem ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
 		assertEquals(COUNTER_VALUE, ti.getTaskItemId());	
@@ -351,7 +351,7 @@ public class TaskItemTest {
 	 * Test method for {@link edu.ncsu.csc216.backlog.model.task.TaskItem#getNotesArray()}.
 	 */
 	@Test
-	void testGetNotesArray() {
+	public void testGetNotesArray() {
 		
 		// read Task from a file
 		TaskItem ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
@@ -365,9 +365,11 @@ public class TaskItemTest {
 		assertEquals(VALID_NOTE, notes[0][1]);
 	}
 	
-	
+	/**
+	 * Tests path from Backlog state, that is, this tests inner class BacklogState.
+	 */
 	@Test
-	void testBacklogState() {
+	public void testBacklogState() {
 		// create a TaskItem
 		TaskItem ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
 
@@ -399,8 +401,12 @@ public class TaskItemTest {
 				
 	}
 	
+	
+	/**
+	 * Tests path from Owned state, that is, this tests inner class OwnedState.
+	 */
 	@Test
-	void testOwnedState() {
+	public void testOwnedState() {
 		// create a TaskItem
 		TaskItem ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
 		ti.update(new Command(CommandValue.CLAIM, "bo", "BtoO"));
@@ -449,8 +455,12 @@ public class TaskItemTest {
 
 	}
 	
+	
+	/**
+	 * Tests path from Processing state, that is, this tests inner class ProcessingState.
+	 */
 	@Test
-	void testProcessingState (){
+	public void testProcessingState (){
 		// create a TaskItem of BUG
 		TaskItem ti = new TaskItem(VALID_TITLE, TaskItem.Type.BUG, VALID_CREATOR, VALID_NOTE);
 		ti.update(new Command(CommandValue.CLAIM, "bo", "BtoO"));
@@ -487,6 +497,7 @@ public class TaskItemTest {
 		//
 		// VerifyingB back to processing
 		ti.update(new Command(CommandValue.PROCESS, "name not used", "VtoP"));
+		/**
 		//
 		// ProcessingC to done
 		ti.update(new Command(CommandValue.COMPLETE, "name not used", "PtoD"));
@@ -525,13 +536,79 @@ public class TaskItemTest {
 		assertEquals("bo", ti.getNotes().get(3).getNoteAuthor());       //The last note author
 		assertEquals("PtoV", ti.getNotes().get(3).getNoteText());   //The last note text
 		
-		
+		*/
+	}
 		
 	
-
+	
+	/**
+	 * Tests path from Done state, that is, this tests inner class DoneState.
+	 */
+	@Test
+	public void testDoneState (){
+		// create a TaskItem of BUG
+		TaskItem ti = new TaskItem(VALID_TITLE, TaskItem.Type.KNOWLEDGE_ACQUISITION, VALID_CREATOR, VALID_NOTE);
+		ti.update(new Command(CommandValue.CLAIM, "bo", "BtoO"));
+		ti.update(new Command(CommandValue.PROCESS, "op", "OtoP"));
+		ti.update(new Command(CommandValue.COMPLETE, "pd", "PtoD"));
+		// DoneA to Processing
+		ti.update(new Command(CommandValue.PROCESS, "dp", "DtoP"));
+		assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
+		assertEquals(TaskItem.Type.KNOWLEDGE_ACQUISITION, ti.getType());   //No change ever
+		assertEquals(VALID_CREATOR, ti.getCreator());    //No change ever
+		assertEquals("bo", ti.getOwner());						// owner name
+		assertEquals(TaskItem.PROCESSING_NAME, ti.getStateName());  // State
+		assertEquals(5, ti.getNotes().size());			   // Number of notes
+		assertEquals("bo", ti.getNotes().get(4).getNoteAuthor());       //The last note author
+		assertEquals("DtoP", ti.getNotes().get(4).getNoteText());   //The last note text
+	
+		
+		// create a TaskItem of BUG
+		ti = new TaskItem(VALID_TITLE, TaskItem.Type.KNOWLEDGE_ACQUISITION, VALID_CREATOR, VALID_NOTE);
+		ti.update(new Command(CommandValue.CLAIM, "bo", "BtoO"));
+		ti.update(new Command(CommandValue.PROCESS, "op", "OtoP"));
+		ti.update(new Command(CommandValue.COMPLETE, "pd", "PtoD"));
+		// DoneB to Backlog
+		ti.update(new Command(CommandValue.BACKLOG, "db", "DtoB"));
+		assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
+		assertEquals(TaskItem.Type.KNOWLEDGE_ACQUISITION, ti.getType());   //No change ever
+		assertEquals(VALID_CREATOR, ti.getCreator());    //No change ever
+		assertNull(ti.getOwner());						// owner name
+		assertEquals(TaskItem.BACKLOG_NAME, ti.getStateName());  // State
+		assertEquals(5, ti.getNotes().size());			   // Number of notes
+		assertEquals("bo", ti.getNotes().get(4).getNoteAuthor());       //The last note author
+		assertEquals("DtoB", ti.getNotes().get(4).getNoteText());   //The last note text
+		
 	}
 	
-	//
+	
+	/**
+	 * Tests path from Rejected state, that is, this tests inner class RejectedState.
+	 */
+	@Test
+	public void testRejectedState (){
+		// create a TaskItem of REJECTED
+		TaskItem ti = new TaskItem(VALID_TITLE, TaskItem.Type.KNOWLEDGE_ACQUISITION, VALID_CREATOR, VALID_NOTE);
+		ti.update(new Command(CommandValue.REJECT, "br", "BtoR"));
+		// RejectA to Backlog
+		ti.update(new Command(CommandValue.BACKLOG, "rb", "RtoB"));
+		assertEquals(VALID_TITLE, ti.getTitle());		 //No change ever
+		assertEquals(TaskItem.Type.KNOWLEDGE_ACQUISITION, ti.getType());   //No change ever
+		assertEquals(VALID_CREATOR, ti.getCreator());    //No change ever
+		assertNull(ti.getOwner());						// owner name
+		assertEquals(TaskItem.BACKLOG_NAME, ti.getStateName());  // State
+		assertEquals(3, ti.getNotes().size());			   // Number of notes
+		assertEquals("rb", ti.getNotes().get(2).getNoteAuthor());       //The last note author
+		assertEquals("RtoB", ti.getNotes().get(2).getNoteText());   //The last note text
+	
+		
+		
+
+		
+	
+	}
+	
+	
 	
 	
 	

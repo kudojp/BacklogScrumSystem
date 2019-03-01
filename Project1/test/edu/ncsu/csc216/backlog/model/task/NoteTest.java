@@ -5,6 +5,11 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Test class for Note class
+ * @author Daiki Kudo
+ *
+ */
 public class NoteTest {
 	
 	/** Valid author name for a note */
@@ -17,14 +22,7 @@ public class NoteTest {
 	private static final String VALID_TEXT2 = "So easy!";
 	
 	
-	
-	/**
-	 * Sets up for testing
-	 * @throws Exception
-	 */
-	@Before
-	public void setUp() throws Exception {
-	}
+
 
 	/**
 	 * Tests constructor.
@@ -89,13 +87,18 @@ public class NoteTest {
 		assertEquals(n.getNoteAuthor(), VALID_AUTHOR);	
 	}
 
+	/**
+	 * Tests getNoteText()
+	 */
 	@Test
 	public void testGetNoteText() {
 		Note n = new Note(VALID_AUTHOR, VALID_TEXT);
 		assertEquals(n.getNoteText(), VALID_TEXT);
 	}
 	
-
+	/**
+	 * Tests getNoteArray()
+	 */
 	@Test
 	public void testGetNoteArray() {
 		Note n = new Note(VALID_AUTHOR, VALID_TEXT);

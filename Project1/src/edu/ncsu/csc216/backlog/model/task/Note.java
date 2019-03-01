@@ -4,6 +4,7 @@
 package edu.ncsu.csc216.backlog.model.task;
 
 /**
+ * Note class which has the author and the text.
  * @author Daiki Kudo
  *
  */
