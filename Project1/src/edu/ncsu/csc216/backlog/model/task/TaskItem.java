@@ -108,6 +108,7 @@ public class TaskItem {
 		this.type = type;
 		this.title = title;
 		this.creator = creator;
+		this.isVerified = false;
 		this.notes = new ArrayList<Note>();
 		this.notes.add(new Note(creator, notes));
 		this.taskId = counter;

@@ -20,7 +20,7 @@ import edu.ncsu.csc216.task.xml.TaskWriter;
 public class ScrumBacklogModel {
 	 
 	/** the only instance of ScrumBacklogModel */
-	private static ScrumBacklogModel instance = new ScrumBacklogModel();
+	private static ScrumBacklogModel instance;
 	/** taskItem List of ScrumBacklogModel*/
 	private TaskItemList taskItemList;
 
