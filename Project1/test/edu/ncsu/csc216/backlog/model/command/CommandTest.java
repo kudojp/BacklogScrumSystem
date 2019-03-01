@@ -1,8 +1,6 @@
 package edu.ncsu.csc216.backlog.model.command;
 
 import static org.junit.Assert.*;
-
-import org.junit.Before;
 import org.junit.Test;
 
 import edu.ncsu.csc216.backlog.model.command.Command.CommandValue;
