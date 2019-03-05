@@ -145,8 +145,6 @@ public class TaskItemList {
 		TaskItem ti = this.getTaskItemById(id);
 		if (ti != null) {
 			ti.update(c);
-		} else {
-			throw new IllegalArgumentException();
 		}
 			
 	}
