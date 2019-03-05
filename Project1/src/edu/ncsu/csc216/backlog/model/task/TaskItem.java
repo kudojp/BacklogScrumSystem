@@ -323,7 +323,7 @@ public class TaskItem {
 	
 	/**
 	 * Sets static field "counter" at a given value
-	 * @param i : value which counter would be set at (has be more than 0)
+	 * @param i : value which counter would be set at (need to be more than 0)
 	 */
 	public static void setCounter(int i) {
 		if (i <= 0) {

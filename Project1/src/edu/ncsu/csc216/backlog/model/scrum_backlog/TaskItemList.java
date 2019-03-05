@@ -139,10 +139,16 @@ public class TaskItemList {
 	/**
 	 * Executes given command
 	 * @param id : id of the task to be handeled
-	 * @param c : command given
+	 * @param c : command givenå
 	 */
 	public void executeCommand(int id, Command c) {
-		this.getTaskItemById(id).update(c);
+		TaskItem ti = this.getTaskItemById(id);
+		if (ti != null) {
+			ti.update(c);
+		} else {
+			throw new IllegalArgumentException();
+		}
+			
 	}
 	
 	/**

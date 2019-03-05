@@ -19,11 +19,11 @@ public class Note {
 	 * Constructs Note object which contains note and the author's name
 	 * @param noteAuthor : author's name of a task
 	 * @param noteText : note about a task
-	 * @throws IllegalArgumentException if a note or a noteAuthor is invalid
+	 * @throws IllegalArgumentException if a noteText or a noteAuthor is invalid
 	 */
 	public Note(String noteAuthor, String noteText) throws IllegalArgumentException{
 		if (noteAuthor == null || noteAuthor.equals("")) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("");
 		}
 		this.setNoteAuthor(noteAuthor);
 		
